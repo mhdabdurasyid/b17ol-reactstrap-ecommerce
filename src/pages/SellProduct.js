@@ -1,14 +1,80 @@
 import React, { Component } from 'react'
 import Navbar from '../components/NavbarSeller'
-import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput } from 'reactstrap'
+import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput, Alert } from 'reactstrap'
+import axios from 'axios'
+import qs from 'querystring'
 
 class SellProduct extends Component {
+  constructor (props) {
+    super(props)
+    this.formSubmit = this.formSubmit.bind(this)
+
+    this.state = {
+      category: {},
+      color: {},
+      name: '',
+      price: '',
+      description: '',
+      stock: '',
+      categoryID: '',
+      conditionID: '',
+      colorID: '',
+      sellerID: 1
+    }
+  }
+
+  async componentDidMount () {
+    try {
+      const category = await axios.get('http://localhost:8080/category')
+      const color = await axios.get('http://localhost:8080/color')
+      this.setState({
+        category: category.data.data,
+        color: color.data.data
+      })
+    } catch (error) {
+    }
+  }
+
+  async formSubmit (event) {
+    event.preventDefault()
+
+    try {
+      const addProduct = await axios.post('http://localhost:8080/item', qs.stringify({
+        name: this.state.name,
+        price: Number(this.state.price),
+        description: this.state.description,
+        stock: Number(this.state.stock),
+        categoryID: this.state.categoryID,
+        conditionID: this.state.conditionID,
+        colorID: this.state.colorID,
+        sellerID: this.state.sellerID
+      }))
+      if (addProduct.status === 200) {
+        this.setState({
+          name: '',
+          price: '',
+          description: '',
+          stock: '',
+          categoryID: '',
+          conditionID: '',
+          colorID: ''
+        })
+        alert('Success add product')
+      } else {
+        alert('Something wrong')
+      }
+    } catch (error) {
+    }
+  }
+
   render () {
+    const { category, color } = this.state
+
     return (
       <>
         <Navbar />
         <Container className='mt-5'>
-          <Form>
+          <Form onSubmit={this.formSubmit}>
             <Card>
               <CardHeader className='px-4 py-4'>
                 <h5 className='font-weight-bold'>Inventory</h5>
@@ -16,14 +82,15 @@ class SellProduct extends Component {
               <CardBody className='px-4 py-4'>
                 <FormGroup>
                   <Label for='name' className='text-secondary'>Name of goods</Label>
-                  <Input type='text' name='name' id='name' size='lg' />
+                  <Input type='text' name='name' id='name' size='lg' value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for='category' className='text-secondary'>Category</Label>
-                  <Input type='select' name='category' id='category' size='lg'>
-                    <option>T-Shirt</option>
-                    <option>Shorts</option>
-                    <option>Pants</option>
+                  <Input type='select' name='category' id='category' size='lg' onChange={(e) => this.setState({ categoryID: e.target.value })}>
+                    <option value=''>- Select one- </option>
+                    {category.length && category.map(items => {
+                      return (<option key={items.id} value={items.id}>{items.name}</option>)
+                    })}
                   </Input>
                 </FormGroup>
               </CardBody>
@@ -35,26 +102,26 @@ class SellProduct extends Component {
               <CardBody className='px-4 py-4'>
                 <FormGroup>
                   <Label for='price' className='text-secondary'>Unit price</Label>
-                  <Input type='text' name='price' id='price' size='lg' />
+                  <Input type='text' name='price' id='price' size='lg' value={this.state.price} onChange={(e) => this.setState({ price: e.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for='stock' className='text-secondary'>Stock</Label>
-                  <Input type='text' name='stock' id='stock' size='lg' />
+                  <Input type='text' name='stock' id='stock' size='lg' value={this.state.stock} onChange={(e) => this.setState({ stock: e.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for='color' className='text-secondary'>Color</Label>
-                  <Input type='select' name='color' id='color' size='lg'>
-                    <option>Black</option>
-                    <option>Red</option>
-                    <option>Green</option>
-                    <option>Blue</option>
+                  <Input type='select' name='color' id='color' size='lg' onChange={(e) => this.setState({ colorID: e.target.value })}>
+                    <option value=''>- Select one -</option>
+                    {color.length && color.map(items => {
+                      return (<option key={items.id} value={items.id}>{items.name}</option>)
+                    })}
                   </Input>
                 </FormGroup>
                 <FormGroup>
                   <Label for='radio' className='text-secondary'>Condition</Label>
                   <div>
-                    <CustomInput type='radio' id='new' label='New' name='condition' checked inline />
-                    <CustomInput type='radio' id='used' label='Used' name='condition' inline />
+                    <CustomInput type='radio' id='new' value='1' label='New' name='condition' inline onChange={(e) => this.setState({ conditionID: e.target.value })} />
+                    <CustomInput type='radio' id='used' value='2' label='Used' name='condition' inline onChange={(e) => this.setState({ conditionID: e.target.value })} />
                   </div>
                 </FormGroup>
               </CardBody>
@@ -66,11 +133,11 @@ class SellProduct extends Component {
               <CardBody className='px-4 py-4'>
                 <FormGroup>
                   <Label for='description'> </Label>
-                  <Input type='textarea' name='description' id='description' />
+                  <Input type='textarea' name='description' id='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
                 </FormGroup>
               </CardBody>
             </Card>
-            <Button color='success' size='lg' className='mb-5 rounded-pill' block>Sell</Button>
+            <Button type='submit' color='success' size='lg' className='mb-5 rounded-pill' block>Sell</Button>
           </Form>
         </Container>
       </>
