@@ -77,7 +77,7 @@ class Products extends Component {
             </div>
           </Card>
         </Container>
-        <Modal isOpen={this.state.modalUpdate} toggle={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>
+        <Modal className='modal-dialog-centered modal-dialog-scrollable' isOpen={this.state.modalUpdate} toggle={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>
           <ModalHeader toggle={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>Update product</ModalHeader>
           <ModalBody>
             <Form>
@@ -125,7 +125,7 @@ class Products extends Component {
             <Button color='success' block>Update</Button>{' '}
           </ModalBody>
         </Modal>
-        <Modal isOpen={this.state.modalDelete} toggle={() => this.setState({ modalDelete: !this.state.modalDelete })}>
+        <Modal className='modal-dialog-centered' isOpen={this.state.modalDelete} toggle={() => this.setState({ modalDelete: !this.state.modalDelete })}>
           <ModalHeader toggle={() => this.setState({ modalDelete: !this.state.modalDelete })}>Are you sure to delete this product?</ModalHeader>
           <ModalBody>
           After click Yes, you can't see this product on your store anymore..
