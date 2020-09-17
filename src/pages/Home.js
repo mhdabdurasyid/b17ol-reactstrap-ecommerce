@@ -47,27 +47,25 @@ class Home extends Component {
                   <Card className='shadow-sm h-100'>
                     <CardImg top width='100%' src={require('../assets/img/products/item.png')} alt='new product' />
                     <CardBody className='px-3 py-3'>
-                      <CardTitle>
-                        <Link to='/detail' className='text-body text-decoration-none'>
-                          <h6 className='font-weight-bold'>{product.name}</h6>
+                      <CardTitle className='mb-2'>
+                        <Link to='/detail' className='text-body text-decoration-none font-weight-bold'>
+                          {product.name}
                         </Link>
                       </CardTitle>
-                      <CardSubtitle>
-                        <h6 className='text-success font-weight-bold'>Rp {product.price}</h6>
-                      </CardSubtitle>
-                      <CardText>
-                        <h6><small className='text-secondary'>{product.category}</small></h6>
-                        <ul className='list-inline m-0'>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'>
-                            <h6><small className='text-secondary'>({Math.ceil(90 + (10 * Math.random()))})</small></h6>
-                          </li>
-                        </ul>
+                      <CardSubtitle className='text-success font-weight-bold'>Rp {product.price}</CardSubtitle>
+                      <CardText className='mb-0'>
+                        <small className='text-secondary'>{product.category}</small>
                       </CardText>
+                      <ul className='list-inline m-0'>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'>
+                          <small className='text-secondary'>({Math.ceil(90 + (10 * Math.random()))})</small>
+                        </li>
+                      </ul>
                     </CardBody>
                   </Card>
                 </Col>
@@ -83,29 +81,27 @@ class Home extends Component {
               return (
                 <Col className='mb-4' key={product.id}>
                   <Card className='shadow-sm h-100'>
-                    <CardImg top width='100%' src={require('../assets/img/products/item.png')} alt='popular product' />
+                    <CardImg top width='100%' src={require('../assets/img/products/item.png')} alt='new product' />
                     <CardBody className='px-3 py-3'>
-                      <CardTitle>
-                        <Link to='/detail' className='text-body text-decoration-none'>
-                          <h6 className='font-weight-bold'>{product.name}</h6>
+                      <CardTitle className='mb-2'>
+                        <Link to='/detail' className='text-body text-decoration-none font-weight-bold'>
+                          {product.name}
                         </Link>
                       </CardTitle>
-                      <CardSubtitle>
-                        <h6 className='text-success font-weight-bold'>Rp {product.price}</h6>
-                      </CardSubtitle>
-                      <CardText>
-                        <h6><small className='text-secondary'>{product.category}</small></h6>
-                        <ul className='list-inline m-0'>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                          <li className='list-inline-item m-0'>
-                            <h6><small className='text-secondary'>({Math.ceil(90 + (10 * Math.random()))})</small></h6>
-                          </li>
-                        </ul>
+                      <CardSubtitle className='text-success font-weight-bold'>Rp {product.price}</CardSubtitle>
+                      <CardText className='mb-0'>
+                        <small className='text-secondary'>{product.category}</small>
                       </CardText>
+                      <ul className='list-inline m-0'>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        <li className='list-inline-item m-0'>
+                          <small className='text-secondary'>({Math.ceil(90 + (10 * Math.random()))})</small>
+                        </li>
+                      </ul>
                     </CardBody>
                   </Card>
                 </Col>

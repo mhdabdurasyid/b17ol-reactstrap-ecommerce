@@ -39,7 +39,7 @@ class NavbarCostumer extends Component {
                   <Button color='link'><img src={Cart} alt='notification' /></Button>
                 </NavLink>
               </NavItem>
-              <NavItem className='mr-4'>
+              <NavItem>
                 <NavLink>
                   <Link to='/login' className='btn btn-success rounded-pill mr-3' style={{ width: '100px' }}>Login</Link><Link to='/register' className='btn btn-outline-success rounded-pill' style={{ width: '100px' }}>Sign Up</Link>
                 </NavLink>
