@@ -75,11 +75,11 @@ class SellProduct extends Component {
               <CardBody className='px-4 py-4'>
                 <FormGroup>
                   <Label for='name' className='text-secondary'>Name of goods</Label>
-                  <Input type='text' name='name' id='name' size='lg' value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
+                  <Input type='text' name='name' id='name' bsSize='lg' value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for='category' className='text-secondary'>Category</Label>
-                  <Input type='select' name='category' id='category' size='lg' onChange={(e) => this.setState({ categoryID: e.target.value })}>
+                  <Input type='select' name='category' id='category' bsSize='lg' onChange={(e) => this.setState({ categoryID: e.target.value })}>
                     <option value=''>- Select one- </option>
                     {category.length && category.map(items => {
                       return (<option key={items.id} value={items.id}>{items.name}</option>)
@@ -95,15 +95,15 @@ class SellProduct extends Component {
               <CardBody className='px-4 py-4'>
                 <FormGroup>
                   <Label for='price' className='text-secondary'>Unit price</Label>
-                  <Input type='text' name='price' id='price' size='lg' value={this.state.price} onChange={(e) => this.setState({ price: e.target.value })} />
+                  <Input type='text' name='price' id='price' bsSize='lg' value={this.state.price} onChange={(e) => this.setState({ price: e.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for='stock' className='text-secondary'>Stock</Label>
-                  <Input type='text' name='stock' id='stock' size='lg' value={this.state.stock} onChange={(e) => this.setState({ stock: e.target.value })} />
+                  <Input type='text' name='stock' id='stock' bsSize='lg' value={this.state.stock} onChange={(e) => this.setState({ stock: e.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for='color' className='text-secondary'>Color</Label>
-                  <Input type='select' name='color' id='color' size='lg' onChange={(e) => this.setState({ colorID: e.target.value })}>
+                  <Input type='select' name='color' id='color' bsSize='lg' onChange={(e) => this.setState({ colorID: e.target.value })}>
                     <option value=''>- Select one -</option>
                     {color.length && color.map(items => {
                       return (<option key={items.id} value={items.id}>{items.name}</option>)
@@ -126,7 +126,7 @@ class SellProduct extends Component {
               <CardBody className='px-4 py-4'>
                 <FormGroup>
                   <Label for='description'> </Label>
-                  <Input type='textarea' name='description' id='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
+                  <Input type='textarea' name='description' id='description' bsSize='lg' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
                 </FormGroup>
               </CardBody>
             </Card>

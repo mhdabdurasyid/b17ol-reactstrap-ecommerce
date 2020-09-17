@@ -83,11 +83,11 @@ class Products extends Component {
             <Form>
               <FormGroup>
                 <Label for='name' className='text-secondary'>Name of goods</Label>
-                <Input type='text' name='name' id='name' size='lg' />
+                <Input type='text' name='name' id='name' bsSize='lg' />
               </FormGroup>
               <FormGroup>
                 <Label for='category' className='text-secondary'>Category</Label>
-                <Input type='select' name='category' id='category' size='lg'>
+                <Input type='select' name='category' id='category' bsSize='lg'>
                   <option>T-Shirt</option>
                   <option>Shorts</option>
                   <option>Pants</option>
@@ -95,15 +95,15 @@ class Products extends Component {
               </FormGroup>
               <FormGroup>
                 <Label for='price' className='text-secondary'>Unit price</Label>
-                <Input type='text' name='price' id='price' size='lg' />
+                <Input type='text' name='price' id='price' bsSize='lg' />
               </FormGroup>
               <FormGroup>
                 <Label for='stock' className='text-secondary'>Stock</Label>
-                <Input type='text' name='stock' id='stock' size='lg' />
+                <Input type='text' name='stock' id='stock' bsSize='lg' />
               </FormGroup>
               <FormGroup>
                 <Label for='color' className='text-secondary'>Color</Label>
-                <Input type='select' name='color' id='color' size='lg'>
+                <Input type='select' name='color' id='color' bsSize='lg'>
                   <option>Black</option>
                   <option>Red</option>
                   <option>Green</option>
@@ -113,13 +113,13 @@ class Products extends Component {
               <FormGroup>
                 <Label for='radio' className='text-secondary'>Condition</Label>
                 <div>
-                  <CustomInput type='radio' id='new' label='New' name='condition' checked inline />
+                  <CustomInput type='radio' id='new' label='New' name='condition' inline />
                   <CustomInput type='radio' id='used' label='Used' name='condition' inline />
                 </div>
               </FormGroup>
               <FormGroup>
                 <Label for='description' className='text-secondary'>Description</Label>
-                <Input type='textarea' name='description' id='description' />
+                <Input type='textarea' name='description' id='description' bsSize='lg' />
               </FormGroup>
             </Form>
             <Button color='success' block>Update</Button>{' '}
