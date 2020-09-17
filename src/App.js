@@ -8,8 +8,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path='/' component={Product} exact />
-          <Route path='/sell' component={SellProduct} exact />
+          <Route path='/my-store' component={Product} exact />
+          <Route path='/my-store/sell' component={SellProduct} exact />
         </Switch>
       </BrowserRouter>
     )

@@ -9,6 +9,7 @@ class Products extends Component {
   constructor (props) {
     super(props)
     this.updateProduct = this.updateProduct.bind(this)
+    this.deleteProduct = this.deleteProduct.bind(this)
 
     this.state = {
       modalUpdate: false,
@@ -62,7 +63,10 @@ class Products extends Component {
   }
 
   openModalDelete (id) {
-    this.setState({ modalDelete: !this.state.modalDelete })
+    this.setState({
+      modalDelete: !this.state.modalDelete,
+      id: id
+    })
   }
 
   async updateProduct (event) {
@@ -90,6 +94,22 @@ class Products extends Component {
     }
   }
 
+  async deleteProduct () {
+    try {
+      const deleteProduct = await axios.delete(`http://localhost:8080/item/${this.state.id}`)
+
+      if (deleteProduct.status === 200) {
+        this.setState({ modalDelete: !this.state.modalDelete }, async () => {
+          try {
+            await this.getSellerProduct()
+          } catch (error) {
+          }
+        })
+      }
+    } catch (error) {
+    }
+  }
+
   render () {
     const { products, category, color, condition } = this.state
 
@@ -97,7 +117,7 @@ class Products extends Component {
       <>
         <Navbar />
         <Container className='mt-5'>
-          <Card>
+          <Card className='mb-5'>
             <CardHeader className='px-4 py-4'>
               <h5 className='font-weight-bold'>My product</h5>
             </CardHeader>
@@ -126,7 +146,7 @@ class Products extends Component {
               </Table>
             </CardBody>
             <div className='mb-4 ml-4'>
-              <Link to='/sell' className='btn btn-success btn-lg rounded-pill'>Sell product</Link>
+              <Link to='/my-store/sell' className='btn btn-success btn-lg rounded-pill'>Sell product</Link>
             </div>
           </Card>
         </Container>
@@ -188,7 +208,7 @@ class Products extends Component {
           After click Yes, you can't see this product on your store anymore..
           </ModalBody>
           <ModalFooter>
-            <Button color='danger'>Yes</Button>{' '}
+            <Button color='danger' onClick={this.deleteProduct}>Yes</Button>{' '}
             <Button color='success' onClick={() => this.setState({ modalDelete: !this.state.modalDelete })}>No</Button>
           </ModalFooter>
         </Modal>

@@ -52,7 +52,7 @@ class SellProduct extends Component {
 
       if (addProduct.status === 200) {
         alert('Success add product')
-        this.props.history.push('/')
+        this.props.history.push('/my-store')
       } else {
         alert('Something wrong')
       }

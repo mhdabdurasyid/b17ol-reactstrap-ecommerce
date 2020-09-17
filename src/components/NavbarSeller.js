@@ -19,7 +19,7 @@ class NavbarSeller extends Component {
     return (
       <Navbar color='light' light className='shadow' expand='md'>
         <Container>
-          <Link to='/' className='navbar-brand'>
+          <Link to='/my-store' className='navbar-brand'>
             <img src={Logo} alt='Wakede Logo' />
           </Link>
           <NavbarToggler onClick={() => this.setState({ navbarOpen: !this.state.navbarOpen })} />
