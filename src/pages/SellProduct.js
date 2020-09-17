@@ -51,16 +51,8 @@ class SellProduct extends Component {
       }))
 
       if (addProduct.status === 200) {
-        this.setState({
-          name: '',
-          price: '',
-          description: '',
-          stock: '',
-          categoryID: '',
-          conditionID: '',
-          colorID: ''
-        })
         alert('Success add product')
+        this.props.history.push('/')
       } else {
         alert('Something wrong')
       }
