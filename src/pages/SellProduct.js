@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Navbar from '../components/NavbarSeller'
-import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput, Alert } from 'reactstrap'
+import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput } from 'reactstrap'
 import axios from 'axios'
 import qs from 'querystring'
 
@@ -49,6 +49,7 @@ class SellProduct extends Component {
         colorID: this.state.colorID,
         sellerID: this.state.sellerID
       }))
+
       if (addProduct.status === 200) {
         this.setState({
           name: '',

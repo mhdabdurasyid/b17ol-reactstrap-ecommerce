@@ -2,17 +2,44 @@ import React, { Component } from 'react'
 import Navbar from '../components/NavbarSeller'
 import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 class Products extends Component {
   constructor (props) {
     super(props)
     this.state = {
       modalUpdate: false,
-      modalDelete: false
+      modalDelete: false,
+      products: {},
+      updateProduct: {}
     }
   }
 
+  async componentDidMount () {
+    try {
+      const seller = await axios.get('http://localhost:8080/seller/1?sort=desc')
+      this.setState({
+        products: seller.data.data.items
+      })
+    } catch (error) {
+    }
+  }
+
+  openModalUpdate (data) {
+    this.setState({
+      modalUpdate: !this.state.modalUpdate,
+      updateProduct: data
+    })
+  }
+
+  openModalDelete (id) {
+    this.setState({ modalDelete: !this.state.modalDelete })
+    console.log(id)
+  }
+
   render () {
+    const { products, updateProduct } = this.state
+
     return (
       <>
         <Navbar />
@@ -32,12 +59,16 @@ class Products extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Zalora Muslim Cloth Man</td>
-                    <td>199000</td>
-                    <td>23</td>
-                    <td><Button color='success' size='sm' className='mb-1' onClick={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>Update</Button> <Button color='danger' size='sm' className='mb-1' onClick={() => this.setState({ modalDelete: !this.state.modalDelete })}>Delete</Button></td>
-                  </tr>
+                  {products.length && products.map(product => {
+                    return (
+                      <tr key={product.id}>
+                        <td>{product.name}</td>
+                        <td>{product.price}</td>
+                        <td>{product.stock}</td>
+                        <td><Button color='success' size='sm' className='mb-1' onClick={() => this.openModalUpdate(product)}>Update</Button> <Button color='danger' size='sm' className='mb-1' onClick={() => this.openModalDelete(product.id)}>Delete</Button></td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </Table>
             </CardBody>
@@ -91,11 +122,8 @@ class Products extends Component {
                 <Input type='textarea' name='description' id='description' />
               </FormGroup>
             </Form>
+            <Button color='success' block>Update</Button>{' '}
           </ModalBody>
-          <ModalFooter>
-            <Button color='success'>Update</Button>{' '}
-            <Button color='danger' onClick={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>Cancel</Button>
-          </ModalFooter>
         </Modal>
         <Modal isOpen={this.state.modalDelete} toggle={() => this.setState({ modalDelete: !this.state.modalDelete })}>
           <ModalHeader toggle={() => this.setState({ modalDelete: !this.state.modalDelete })}>Are you sure to delete this product?</ModalHeader>
