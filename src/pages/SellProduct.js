@@ -126,7 +126,7 @@ class SellProduct extends Component {
               <CardBody className='px-4 py-4'>
                 <FormGroup>
                   <Label for='description'> </Label>
-                  <Input type='textarea' name='description' id='description' bsSize='lg' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
+                  <Input type='textarea' name='description' id='description' bsSize='lg' style={{ height: '10rem' }} value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
                 </FormGroup>
               </CardBody>
             </Card>

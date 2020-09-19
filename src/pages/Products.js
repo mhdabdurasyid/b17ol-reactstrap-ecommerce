@@ -196,7 +196,7 @@ class Products extends Component {
               </FormGroup>
               <FormGroup>
                 <Label for='description' className='text-secondary'>Description</Label>
-                <Input type='textarea' name='description' id='description' bsSize='lg' value={this.state.description} onChange={(e) => this.setState({ [e.target.name]: e.target.value })} />
+                <Input type='textarea' name='description' id='description' bsSize='lg' style={{ height: '10rem' }} value={this.state.description} onChange={(e) => this.setState({ [e.target.name]: e.target.value })} />
               </FormGroup>
               <Button color='success' block>Update</Button>
             </Form>
