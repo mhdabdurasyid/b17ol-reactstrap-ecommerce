@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import Navbar from '../components/NavbarSeller'
-import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput, Table, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, InputGroupAddon, InputGroupText, Row, Col } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import qs from 'querystring'
+import Search from '../assets/img/icon/search.svg'
 
 class Products extends Component {
   constructor (props) {
     super(props)
     this.updateProduct = this.updateProduct.bind(this)
     this.deleteProduct = this.deleteProduct.bind(this)
+    this.sortBy = this.sortBy.bind(this)
+    this.numberOfProduct = this.numberOfProduct.bind(this)
+    this.search = this.search.bind(this)
 
     this.state = {
       modalUpdate: false,
@@ -25,7 +29,12 @@ class Products extends Component {
       stock: '',
       category_id: '',
       color_id: '',
-      condition_id: ''
+      condition_id: '',
+      pageInfo: {},
+      page: 1,
+      sort: 'sort=desc',
+      number: 5,
+      query: ''
     }
   }
 
@@ -38,9 +47,10 @@ class Products extends Component {
 
   async getSellerProduct () {
     try {
-      const seller = await axios.get('http://localhost:8080/seller/1?sort=desc')
+      const seller = await axios.get(`http://localhost:8080/seller/1?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
       this.setState({
-        products: seller.data.data.items
+        products: seller.data.data.items,
+        pageInfo: seller.data.pageInfo
       })
     } catch (error) {
     }
@@ -110,6 +120,32 @@ class Products extends Component {
     }
   }
 
+  sortBy (event) {
+    this.setState({ sort: event.target.value }, async () => {
+      try {
+        await this.getSellerProduct()
+      } catch (error) {
+      }
+    })
+  }
+
+  numberOfProduct (event) {
+    this.setState({ number: event.target.value }, async () => {
+      try {
+        await this.getSellerProduct()
+      } catch (error) {
+      }
+    })
+  }
+
+  async search (event) {
+    event.preventDefault()
+    try {
+      await this.getSellerProduct()
+    } catch (error) {
+    }
+  }
+
   render () {
     const { products, category, color, condition } = this.state
 
@@ -122,13 +158,47 @@ class Products extends Component {
               <h5 className='font-weight-bold'>My product</h5>
             </CardHeader>
             <CardBody className='px-4 py-4'>
+              <Row className='mb-4'>
+                <Col xs='auto' md='4'>
+                  <Form onSubmit={this.search}>
+                    <FormGroup>
+                      <InputGroup>
+                        <InputGroupAddon addonType='prepend'>
+                          <InputGroupText>
+                            <img src={Search} alt='...' />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input type='text' placeholder='Search' name='search' value={this.state.query} onChange={(e) => this.setState({ query: e.target.value })} />
+                      </InputGroup>
+                    </FormGroup>
+                  </Form>
+                </Col>
+                <Col xs='auto' md='4' />
+                <Col xs='auto' md='4'>
+                  <Form inline>
+                    <FormGroup>
+                      <Label for='sort' className='mr-2'>Sort by</Label>
+                      <CustomInput type='select' id='sort' name='sort' defaultValue={this.state.sort} onChange={this.sortBy}>
+                        <option value='sort=desc'>New</option>
+                        <option value='sort=asc'>Old</option>
+                        <option value='sort[name]=asc'>Name asc</option>
+                        <option value='sort[name]=desc'>Name desc</option>
+                        <option value='sort[price]=asc'>Price asc</option>
+                        <option value='sort[price]=desc'>Price desc</option>
+                        <option value='sort[stock]=asc'>Stock asc</option>
+                        <option value='sort[stock]=desc'>Stock desc</option>
+                      </CustomInput>
+                    </FormGroup>
+                  </Form>
+                </Col>
+              </Row>
               <Table responsive hover>
                 <thead>
                   <tr>
                     <th>Product name</th>
                     <th>Price</th>
                     <th>Stock</th>
-                    <th> </th>
+                    <th>{' '}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -138,20 +208,39 @@ class Products extends Component {
                         <td>{product.name}</td>
                         <td>{product.price}</td>
                         <td>{product.stock}</td>
-                        <td><Button color='success' size='sm' className='mb-1' onClick={() => this.openModalUpdate(product)}>Update</Button> <Button color='danger' size='sm' className='mb-1' onClick={() => this.openModalDelete(product.id)}>Delete</Button></td>
+                        <td><Button color='success' size='sm' className='mb-1' onClick={() => this.openModalUpdate(product)}>Detail</Button> <Button color='danger' size='sm' className='mb-1' onClick={() => this.openModalDelete(product.id)}>Delete</Button></td>
                       </tr>
                     )
                   })}
                 </tbody>
               </Table>
+              <Row>
+                <Col xs='auto' md='4'>
+                  <Button outline size='sm' color='success'>Prev</Button>{' '}
+                  <Button outline size='sm' color='success'>Next</Button>
+                </Col>
+                <Col xs='auto' md='4' />
+                <Col xs='auto' md='4'>
+                  <Form inline>
+                    <FormGroup>
+                      <Label for='number' className='mr-2'>Number of products</Label>
+                      <CustomInput type='select' id='number' name='number' defaultValue={this.state.number} onChange={this.numberOfProduct}>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='15'>15</option>
+                      </CustomInput>
+                    </FormGroup>
+                  </Form>
+                </Col>
+              </Row>
             </CardBody>
-            <div className='mb-4 ml-4'>
-              <Link to='/my-store/sell' className='btn btn-success btn-lg rounded-pill'>Sell product</Link>
+            <div className='mb-4 mx-5'>
+              <Link to='/my-store/sell' className='btn btn-success btn-sm btn-block rounded-pill'>Sell product</Link>
             </div>
           </Card>
         </Container>
         <Modal className='modal-dialog-centered modal-dialog-scrollable' isOpen={this.state.modalUpdate} toggle={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>
-          <ModalHeader toggle={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>Update product</ModalHeader>
+          <ModalHeader toggle={() => this.setState({ modalUpdate: !this.state.modalUpdate })}>You can update this product</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.updateProduct}>
               <FormGroup>
