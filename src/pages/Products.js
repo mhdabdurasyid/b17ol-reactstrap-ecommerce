@@ -56,6 +56,7 @@ class Products extends Component {
       })
     } catch (error) {
     }
+    this.props.history.push(`?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
   }
 
   async openModalUpdate (data) {
@@ -146,7 +147,7 @@ class Products extends Component {
     })
   }
 
-  async search (event) {
+  search (event) {
     event.preventDefault()
     this.setState({ page: 1 }, async () => {
       try {
@@ -180,7 +181,6 @@ class Products extends Component {
 
   render () {
     const { products, category, color, condition, pageInfo } = this.state
-    console.log(pageInfo)
 
     return (
       <>
