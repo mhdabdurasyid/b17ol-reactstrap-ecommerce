@@ -36,7 +36,8 @@ class Products extends Component {
       page: 1,
       sort: 'sort=desc',
       number: 5,
-      query: ''
+      query: '',
+      index: 1
     }
   }
 
@@ -126,7 +127,8 @@ class Products extends Component {
   sortBy (event) {
     this.setState({
       page: 1,
-      sort: event.target.value
+      sort: event.target.value,
+      index: 1
     }, async () => {
       try {
         await this.getSellerProduct()
@@ -138,7 +140,8 @@ class Products extends Component {
   numberOfProduct (event) {
     this.setState({
       page: 1,
-      number: event.target.value
+      number: event.target.value,
+      index: 1
     }, async () => {
       try {
         await this.getSellerProduct()
@@ -149,7 +152,10 @@ class Products extends Component {
 
   search (event) {
     event.preventDefault()
-    this.setState({ page: 1 }, async () => {
+    this.setState({
+      page: 1,
+      index: 1
+    }, async () => {
       try {
         await this.getSellerProduct()
       } catch (error) {
@@ -159,7 +165,10 @@ class Products extends Component {
 
   prev () {
     if (this.state.pageInfo.prevLink !== null) {
-      this.setState({ page: this.state.page - 1 }, async () => {
+      this.setState({
+        page: this.state.page - 1,
+        index: parseInt(this.state.index) - parseInt(this.state.number)
+      }, async () => {
         try {
           await this.getSellerProduct()
         } catch (error) {
@@ -170,7 +179,10 @@ class Products extends Component {
 
   next () {
     if (this.state.pageInfo.nextLink !== null) {
-      this.setState({ page: this.state.page + 1 }, async () => {
+      this.setState({
+        page: this.state.page + 1,
+        index: parseInt(this.state.index) + parseInt(this.state.number)
+      }, async () => {
         try {
           await this.getSellerProduct()
         } catch (error) {
@@ -181,6 +193,7 @@ class Products extends Component {
 
   render () {
     const { products, category, color, condition, pageInfo } = this.state
+    let i = this.state.index
 
     return (
       <>
@@ -228,6 +241,7 @@ class Products extends Component {
               <Table responsive hover>
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Product name</th>
                     <th>Price</th>
                     <th>Stock</th>
@@ -238,6 +252,7 @@ class Products extends Component {
                   {products.length && products.map(product => {
                     return (
                       <tr key={product.id}>
+                        <th scope='row'>{i++}</th>
                         <td>{product.name}</td>
                         <td>{product.price}</td>
                         <td>{product.stock}</td>
