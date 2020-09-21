@@ -274,11 +274,12 @@ class Products extends Component {
                   <Form inline>
                     <FormGroup>
                       <Label for='number' className='mr-2'>Number of products</Label>
-                      <CustomInput type='select' id='number' name='number' defaultValue={this.state.number} onChange={this.numberOfProduct}>
+                      <CustomInput type='select' className='mr-2' id='number' name='number' defaultValue={this.state.number} onChange={this.numberOfProduct}>
                         <option value='5'>5</option>
                         <option value='10'>10</option>
                         <option value='15'>15</option>
                       </CustomInput>
+                      <span>from {pageInfo.count} products</span>
                     </FormGroup>
                   </Form>
                 </Col>
