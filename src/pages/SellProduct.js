@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Navbar from '../components/NavbarSeller'
-import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput } from 'reactstrap'
+import { Container, Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CustomInput, Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap'
 import axios from 'axios'
 import qs from 'querystring'
 
@@ -19,7 +19,8 @@ class SellProduct extends Component {
       categoryID: '',
       conditionID: '',
       colorID: '',
-      sellerID: 1
+      sellerID: 1,
+      successModal: false
     }
   }
 
@@ -51,10 +52,7 @@ class SellProduct extends Component {
       }))
 
       if (addProduct.status === 200) {
-        alert('Success add product')
-        this.props.history.push('/my-store')
-      } else {
-        alert('Something wrong')
+        this.setState({ successModal: !this.state.successModal })
       }
     } catch (error) {
     }
@@ -133,6 +131,13 @@ class SellProduct extends Component {
             <Button type='submit' color='success' size='lg' className='mb-5 rounded-pill' block>Sell</Button>
           </Form>
         </Container>
+        <Modal className='modal-dialog-centered' isOpen={this.state.successModal}>
+          <ModalHeader>Success!</ModalHeader>
+          <ModalBody>You've success add new product to your store..</ModalBody>
+          <ModalFooter>
+            <Button block color='success' onClick={() => this.props.history.push('/my-store')}>OK</Button>
+          </ModalFooter>
+        </Modal>
       </>
     )
   }
