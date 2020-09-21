@@ -14,6 +14,8 @@ class Products extends Component {
     this.sortBy = this.sortBy.bind(this)
     this.numberOfProduct = this.numberOfProduct.bind(this)
     this.search = this.search.bind(this)
+    this.prev = this.prev.bind(this)
+    this.next = this.next.bind(this)
 
     this.state = {
       modalUpdate: false,
@@ -121,7 +123,10 @@ class Products extends Component {
   }
 
   sortBy (event) {
-    this.setState({ sort: event.target.value }, async () => {
+    this.setState({
+      page: 1,
+      sort: event.target.value
+    }, async () => {
       try {
         await this.getSellerProduct()
       } catch (error) {
@@ -130,7 +135,10 @@ class Products extends Component {
   }
 
   numberOfProduct (event) {
-    this.setState({ number: event.target.value }, async () => {
+    this.setState({
+      page: 1,
+      number: event.target.value
+    }, async () => {
       try {
         await this.getSellerProduct()
       } catch (error) {
@@ -140,14 +148,39 @@ class Products extends Component {
 
   async search (event) {
     event.preventDefault()
-    try {
-      await this.getSellerProduct()
-    } catch (error) {
+    this.setState({ page: 1 }, async () => {
+      try {
+        await this.getSellerProduct()
+      } catch (error) {
+      }
+    })
+  }
+
+  prev () {
+    if (this.state.pageInfo.prevLink !== null) {
+      this.setState({ page: this.state.page - 1 }, async () => {
+        try {
+          await this.getSellerProduct()
+        } catch (error) {
+        }
+      })
+    }
+  }
+
+  next () {
+    if (this.state.pageInfo.nextLink !== null) {
+      this.setState({ page: this.state.page + 1 }, async () => {
+        try {
+          await this.getSellerProduct()
+        } catch (error) {
+        }
+      })
     }
   }
 
   render () {
-    const { products, category, color, condition } = this.state
+    const { products, category, color, condition, pageInfo } = this.state
+    console.log(pageInfo)
 
     return (
       <>
@@ -216,8 +249,10 @@ class Products extends Component {
               </Table>
               <Row>
                 <Col xs='auto' md='4'>
-                  <Button outline size='sm' color='success'>Prev</Button>{' '}
-                  <Button outline size='sm' color='success'>Next</Button>
+                  <span>Page {this.state.page} </span>
+                  {pageInfo.prevLink && (<Button outline size='sm' color='success' onClick={this.prev}>Prev</Button>)}
+                  {' '}
+                  {pageInfo.nextLink && (<Button outline size='sm' color='success' onClick={this.next}>Next</Button>)}
                 </Col>
                 <Col xs='auto' md='4' />
                 <Col xs='auto' md='4'>
