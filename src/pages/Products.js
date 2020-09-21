@@ -50,13 +50,13 @@ class Products extends Component {
   async getSellerProduct () {
     try {
       const seller = await axios.get(`http://localhost:8080/seller/1?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
+      this.props.history.push(`?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
       this.setState({
         products: seller.data.data.items,
         pageInfo: seller.data.pageInfo
       })
     } catch (error) {
     }
-    this.props.history.push(`?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
   }
 
   async openModalUpdate (data) {
