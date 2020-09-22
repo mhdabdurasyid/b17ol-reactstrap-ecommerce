@@ -16,6 +16,7 @@ class Products extends Component {
     this.search = this.search.bind(this)
     this.prev = this.prev.bind(this)
     this.next = this.next.bind(this)
+    this.page = this.page.bind(this)
 
     this.state = {
       modalUpdate: false,
@@ -191,6 +192,20 @@ class Products extends Component {
     }
   }
 
+  async page (event) {
+    event.preventDefault()
+    if (this.state.page !== 0 && this.state.page <= this.state.pageInfo.pages) {
+      this.setState({
+        index: ((this.state.page - 1) * this.state.number) + 1
+      }, async () => {
+        try {
+          await this.getSellerProduct()
+        } catch (error) {
+        }
+      })
+    }
+  }
+
   render () {
     const { products, category, color, condition, pageInfo } = this.state
     let i = this.state.index
@@ -263,13 +278,18 @@ class Products extends Component {
                 </tbody>
               </Table>
               <Row>
-                <Col xs='auto' md='4'>
-                  <span>Page {this.state.page} </span>
-                  {pageInfo.prevLink && (<Button outline size='sm' color='success' onClick={this.prev}>Prev</Button>)}
-                  {' '}
-                  {pageInfo.nextLink && (<Button outline size='sm' color='success' onClick={this.next}>Next</Button>)}
+                <Col xs='auto' md='5'>
+                  <Form inline onSubmit={this.page}>
+                    <span>Page</span>
+                    <FormGroup>
+                      <Input className='mx-2' type='text' name='page' style={{ width: '70px' }} value={this.state.page} onChange={(e) => this.setState({ page: Number(e.target.value) })} />
+                    </FormGroup>
+                    <span className='mr-2'>from {pageInfo.pages} pages</span>
+                    {pageInfo.prevLink && (<Button outline size='sm' color='success' onClick={this.prev} className='mr-2'>Prev</Button>)}
+                    {pageInfo.nextLink && (<Button outline size='sm' color='success' onClick={this.next}>Next</Button>)}
+                  </Form>
                 </Col>
-                <Col xs='auto' md='4' />
+                <Col xs='auto' md='3' />
                 <Col xs='auto' md='4'>
                   <Form inline>
                     <FormGroup>
