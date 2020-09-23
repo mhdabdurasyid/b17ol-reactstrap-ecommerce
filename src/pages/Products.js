@@ -51,7 +51,7 @@ class Products extends Component {
 
   async getSellerProduct () {
     try {
-      const seller = await axios.get(`http://localhost:8080/seller/1?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
+      const seller = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/seller/1?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
       this.props.history.push(`?search=${this.state.query}&page=${this.state.page}&limit=${this.state.number}&${this.state.sort}`)
       this.setState({
         products: seller.data.data.items,
@@ -63,9 +63,9 @@ class Products extends Component {
 
   async openModalUpdate (data) {
     try {
-      const category = await axios.get('http://localhost:8080/category')
-      const color = await axios.get('http://localhost:8080/color')
-      const condition = await axios.get('http://localhost:8080/condition')
+      const category = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/category`)
+      const color = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/color`)
+      const condition = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/condition`)
       this.setState({
         modalUpdate: !this.state.modalUpdate,
         category: category.data.data,
@@ -87,7 +87,7 @@ class Products extends Component {
   async updateProduct (event) {
     event.preventDefault()
     try {
-      const updateProduct = await axios.patch(`http://localhost:8080/item/${this.state.id}`, qs.stringify({
+      const updateProduct = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/item/${this.state.id}`, qs.stringify({
         name: this.state.name,
         price: Number(this.state.price),
         description: this.state.description,
@@ -111,7 +111,7 @@ class Products extends Component {
 
   async deleteProduct () {
     try {
-      const deleteProduct = await axios.delete(`http://localhost:8080/item/${this.state.id}`)
+      const deleteProduct = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/item/${this.state.id}`)
 
       if (deleteProduct.status === 200) {
         this.setState({ modalDelete: !this.state.modalDelete }, async () => {

@@ -26,8 +26,8 @@ class SellProduct extends Component {
 
   async componentDidMount () {
     try {
-      const category = await axios.get('http://localhost:8080/category')
-      const color = await axios.get('http://localhost:8080/color')
+      const category = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/category`)
+      const color = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/color`)
       this.setState({
         category: category.data.data,
         color: color.data.data
@@ -40,7 +40,7 @@ class SellProduct extends Component {
     event.preventDefault()
 
     try {
-      const addProduct = await axios.post('http://localhost:8080/item', qs.stringify({
+      const addProduct = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/item`, qs.stringify({
         name: this.state.name,
         price: Number(this.state.price),
         description: this.state.description,

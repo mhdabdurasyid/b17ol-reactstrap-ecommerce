@@ -17,8 +17,8 @@ class Home extends Component {
 
   async componentDidMount () {
     try {
-      const newProduct = await axios.get('http://localhost:8080/item?sort[created_at]=desc&limit=15')
-      const popularProduct = await axios.get('http://localhost:8080/item?sort[price]=&limit=15')
+      const newProduct = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/item?sort[created_at]=desc&limit=15`)
+      const popularProduct = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/item?sort[price]=&limit=15`)
       this.setState({
         newProduct: newProduct.data.data,
         popularProduct: popularProduct.data.data
