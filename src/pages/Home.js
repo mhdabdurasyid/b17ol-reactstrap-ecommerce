@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Container, Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col } from 'reactstrap'
+import { Container, Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col, Spinner } from 'reactstrap'
 import Navbar from '../components/NavbarCustomer'
 import Star from '../assets/img/icon/star.svg'
 import InactiveStar from '../assets/img/icon/inactive-star.svg'
@@ -71,7 +71,11 @@ class Home extends Component {
               )
             })}
             {this.props.newProducts.isLoading && !this.props.newProducts.isError && (
-              <div>Loading</div>
+              <Col>
+                <Spinner type='grow' color='success' />
+                <Spinner type='grow' color='warning' />
+                <Spinner type='grow' color='secondary' />
+              </Col>
             )}
             {this.props.newProducts.isError && this.props.newProducts.alertMsg !== '' && (
               <div>{this.props.newProducts.alertMsg}</div>
