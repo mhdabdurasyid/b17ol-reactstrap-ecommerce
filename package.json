@@ -16,6 +16,7 @@
     "react-scripts": "3.4.3",
     "reactstrap": "^8.5.1",
     "redux": "^4.0.5",
+    "redux-promise-middleware": "^6.1.2",
     "standard": "^14.3.4"
   },
   "scripts": {
