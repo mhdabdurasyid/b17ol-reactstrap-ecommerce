@@ -1,3 +1,7 @@
 .navbar .nav-link img.rounded-circle {
   width: 32px;
 }
+
+.progress {
+  height: 6px;
+}
