@@ -21,6 +21,7 @@ class Home extends Component {
   }
 
   render () {
+    const { newProductsData, newProductsIsLoading, newProductsIsError, newProductsAlertMsg } = this.props.newProducts
     const { popularProductsData, popularProductsIsLoading, popularProductsIsError, popularProductsAlertMsg } = this.props.popularProducts
 
     return (
@@ -34,7 +35,7 @@ class Home extends Component {
           <h2 className='font-weight-bold mb-1'>New</h2>
           <p className='text-secondary mb-4'>You’ve never seen it before!</p>
           <Row xs='2' md='5'>
-            {!this.props.newProducts.isLoading && !this.props.newProducts.isError && this.props.newProducts.data.length !== 0 && this.props.newProducts.data.map(product => {
+            {!newProductsIsLoading && !newProductsIsError && newProductsData.length !== 0 && newProductsData.map(product => {
               return (
                 <Col className='mb-4' key={product.id}>
                   <Card className='shadow-sm h-100'>
@@ -80,15 +81,15 @@ class Home extends Component {
                 </Col>
               )
             })}
-            {this.props.newProducts.isLoading && !this.props.newProducts.isError && (
+            {newProductsIsLoading && !newProductsIsError && (
               <Col>
                 <Spinner type='grow' color='success' />
                 <Spinner type='grow' color='warning' />
                 <Spinner type='grow' color='secondary' />
               </Col>
             )}
-            {this.props.newProducts.isError && this.props.newProducts.alertMsg !== '' && (
-              <div>{this.props.newProducts.alertMsg}</div>
+            {newProductsIsError && newProductsAlertMsg !== '' && (
+              <div>{newProductsAlertMsg}</div>
             )}
           </Row>
         </Container>

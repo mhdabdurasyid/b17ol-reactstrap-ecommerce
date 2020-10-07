@@ -1,8 +1,8 @@
 const initialState = {
-  data: [],
-  isLoading: false,
-  isError: false,
-  alertMsg: ''
+  newProductsData: [],
+  newProductsIsLoading: false,
+  newProductsIsError: false,
+  newProductsAlertMsg: ''
 }
 
 export default (state = initialState, action) => {
@@ -10,22 +10,22 @@ export default (state = initialState, action) => {
     case 'GET_NEW_PRODUCTS_PENDING' : {
       return {
         ...state,
-        isLoading: true
+        newProductsIsLoading: true
       }
     }
     case 'GET_NEW_PRODUCTS_REJECTED': {
       return {
         ...state,
-        isLoading: false,
-        isError: true,
-        alertMsg: 'Request timed out..'
+        newProductsIsLoading: false,
+        newProductsIsError: true,
+        newProductsAlertMsg: 'Request timed out..'
       }
     }
     case 'GET_NEW_PRODUCTS_FULFILLED': {
       return {
         ...state,
-        isLoading: false,
-        data: action.payload.data.data
+        newProductsIsLoading: false,
+        newProductsData: action.payload.data.data
       }
     }
     default : {
