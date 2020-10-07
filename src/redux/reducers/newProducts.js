@@ -7,13 +7,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_DATA_PENDING' : {
+    case 'GET_NEW_PRODUCTS_PENDING' : {
       return {
         ...state,
         isLoading: true
       }
     }
-    case 'GET_DATA_REJECTED': {
+    case 'GET_NEW_PRODUCTS_REJECTED': {
       return {
         ...state,
         isLoading: false,
@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
         alertMsg: 'Request timed out..'
       }
     }
-    case 'GET_DATA_FULFILLED': {
+    case 'GET_NEW_PRODUCTS_FULFILLED': {
       return {
         ...state,
         isLoading: false,
