@@ -2,17 +2,27 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Container, Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col, Spinner } from 'reactstrap'
+
+// import component
 import Navbar from '../components/NavbarCustomer'
+
+// import icon
 import Star from '../assets/img/icon/star.svg'
 import InactiveStar from '../assets/img/icon/inactive-star.svg'
+
+// import action
 import newProductsAction from '../redux/actions/newProducts'
+import popularProductsAction from '../redux/actions/popularProducts'
 
 class Home extends Component {
   componentDidMount () {
     this.props.getNewProducts()
+    this.props.getPopularProducts()
   }
 
   render () {
+    const { popularProductsData, popularProductsIsLoading, popularProductsIsError, popularProductsAlertMsg } = this.props.popularProducts
+
     return (
       <>
         <Navbar />
@@ -84,13 +94,19 @@ class Home extends Component {
         </Container>
         <Container className='mt-3'>
           <h2 className='font-weight-bold mb-1'>Popular</h2>
-          <p className='text-secondary mb-4'>Find clothes that are trending recently</p>
+          <p className='text-secondary mb-4'>Find products that are trending recently</p>
           <Row xs='2' md='5'>
-            {/* {popularProduct.length && popularProduct.map(product => {
+            {!popularProductsIsLoading && !popularProductsIsError && popularProductsData.length !== 0 && popularProductsData.map(product => {
               return (
                 <Col className='mb-4' key={product.id}>
                   <Card className='shadow-sm h-100'>
-                    <CardImg top width='100%' src={require('../assets/img/products/item.png')} alt='new product' />
+                    <div style={{
+                      backgroundImage: `url('${process.env.REACT_APP_BACKEND_URL}${product.img_thumbnail}')`,
+                      width: '100%',
+                      height: '135px',
+                      backgroundSize: 'cover'
+                    }}
+                    />
                     <CardBody className='px-3 py-3'>
                       <CardTitle className='mb-2'>
                         <Link to='/detail' className='text-body text-decoration-none font-weight-bold'>
@@ -99,23 +115,43 @@ class Home extends Component {
                       </CardTitle>
                       <CardSubtitle className='text-success font-weight-bold'>Rp {product.price}</CardSubtitle>
                       <CardText className='mb-0'>
-                        <small className='text-secondary'>{product.category}</small>
+                        <small className='text-secondary'>{product.store_name}</small>
                       </CardText>
                       <ul className='list-inline m-0'>
-                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
-                        <li className='list-inline-item m-0'><img src={Star} alt='...' /></li>
+                        {product.rating === 0 && Array(5).fill(<li className='list-inline-item m-0'><img src={InactiveStar} alt='...' /></li>)}
+
+                        {product.rating > 0 && product.rating < 2 && Array(1).fill(<li className='list-inline-item m-0'><img src={Star} alt='...' /></li>)}
+                        {product.rating > 0 && product.rating < 2 && Array(4).fill(<li className='list-inline-item m-0'><img src={InactiveStar} alt='...' /></li>)}
+
+                        {product.rating >= 2 && product.rating < 3 && Array(2).fill(<li className='list-inline-item m-0'><img src={Star} alt='...' /></li>)}
+                        {product.rating >= 2 && product.rating < 3 && Array(3).fill(<li className='list-inline-item m-0'><img src={InactiveStar} alt='...' /></li>)}
+
+                        {product.rating >= 3 && product.rating < 4 && Array(3).fill(<li className='list-inline-item m-0'><img src={Star} alt='...' /></li>)}
+                        {product.rating >= 3 && product.rating < 4 && Array(2).fill(<li className='list-inline-item m-0'><img src={InactiveStar} alt='...' /></li>)}
+
+                        {product.rating >= 4 && product.rating < 5 && Array(4).fill(<li className='list-inline-item m-0'><img src={Star} alt='...' /></li>)}
+                        {product.rating >= 4 && product.rating < 5 && Array(1).fill(<li className='list-inline-item m-0'><img src={InactiveStar} alt='...' /></li>)}
+
+                        {product.rating === 5 && Array(5).fill(<li className='list-inline-item m-0'><img src={Star} alt='...' /></li>)}
                         <li className='list-inline-item m-0'>
-                          <small className='text-secondary'>({Math.ceil(90 + (10 * Math.random()))})</small>
+                          <small className='text-secondary'>({product.count_review})</small>
                         </li>
                       </ul>
                     </CardBody>
                   </Card>
                 </Col>
               )
-            })} */}
+            })}
+            {popularProductsIsLoading && !popularProductsIsError && (
+              <Col>
+                <Spinner type='grow' color='success' />
+                <Spinner type='grow' color='warning' />
+                <Spinner type='grow' color='secondary' />
+              </Col>
+            )}
+            {popularProductsIsError && popularProductsAlertMsg !== '' && (
+              <div>{popularProductsAlertMsg}</div>
+            )}
           </Row>
         </Container>
       </>
@@ -124,11 +160,13 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  newProducts: state.newProducts
+  newProducts: state.newProducts,
+  popularProducts: state.popularProducts
 })
 
 const mapDispatchToProps = {
-  getNewProducts: newProductsAction.getNewProducts
+  getNewProducts: newProductsAction.getNewProducts,
+  getPopularProducts: popularProductsAction.getPopularProducts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
