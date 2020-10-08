@@ -4,10 +4,12 @@ import newProducts from './newProducts'
 import popularProducts from './popularProducts'
 import detailProduct from './detailProduct'
 import relevantProducts from './relevantProducts'
+import getProductByCategory from './getProductByCategory'
 
 export default combineReducers({
   newProducts,
   popularProducts,
   detailProduct,
-  relevantProducts
+  relevantProducts,
+  getProductByCategory
 })

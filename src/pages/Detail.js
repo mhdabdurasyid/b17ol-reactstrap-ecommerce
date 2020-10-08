@@ -46,7 +46,7 @@ class Detail extends Component {
           return (
             <>
               <Container className='my-5'>
-                <span className='text-secondary'><Link to='/' className='text-secondary text-decoration-none'>Home</Link> {'>'} <Link to='#category' className='text-secondary text-decoration-none'>Category</Link> {'>'} <Link to='#' className='text-secondary text-decoration-none'>{product.category}</Link></span>
+                <span className='text-secondary'><Link to='/' className='text-secondary text-decoration-none'>Home</Link> {'>'} <Link to='#category' className='text-secondary text-decoration-none'>Category</Link> {'>'} <Link to={`/category/${product.category_id}&${product.category}`} className='text-secondary text-decoration-none'>{product.category}</Link></span>
               </Container>
               <Container>
                 <Row>
