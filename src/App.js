@@ -11,6 +11,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Category from './pages/Category'
 import Customer from './pages/CustomerProfile'
+import ShippingAddress from './pages/ShippingAddress'
 
 // import store
 import store from './redux/store'
@@ -25,6 +26,7 @@ class App extends Component {
             <Route path='/register' component={Register} />
             <Route path='/login' component={Login} />
             <Route path='/customer' component={Customer} />
+            <Route path='/shipping_address' component={ShippingAddress} />
             <Route path='/detail/:id' render={(props) => <Detail {...props} />} />
             <Route path='/category/:id' render={(props) => <Category {...props} />} />
             <Route path='/my-store' component={Product} exact />
