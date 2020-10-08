@@ -7,13 +7,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_NEW_PRODUCTS_PENDING' : {
+    case 'GET_DETAIL_PRODUCT_PENDING' : {
       return {
         ...state,
         detailProductIsLoading: true
       }
     }
-    case 'GET_NEW_PRODUCTS_REJECTED': {
+    case 'GET_DETAIL_PRODUCT_REJECTED': {
       return {
         ...state,
         detailProductIsLoading: false,
@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
         detailProductAlertMsg: 'Request timed out..'
       }
     }
-    case 'GET_NEW_PRODUCTS_FULFILLED': {
+    case 'GET_DETAIL_PRODUCT_FULFILLED': {
       return {
         ...state,
         detailProductIsLoading: false,
