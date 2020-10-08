@@ -48,7 +48,7 @@ class Home extends Component {
                     />
                     <CardBody className='px-3 py-3'>
                       <CardTitle className='mb-2'>
-                        <Link to={`/detail/${product.id}&${product.name}`} className='text-body text-decoration-none font-weight-bold'>
+                        <Link to={`/detail/${product.id}&${product.name}&${product.category_id}`} className='text-body text-decoration-none font-weight-bold'>
                           {product.name}
                         </Link>
                       </CardTitle>
@@ -110,7 +110,7 @@ class Home extends Component {
                     />
                     <CardBody className='px-3 py-3'>
                       <CardTitle className='mb-2'>
-                        <Link to={`/detail/${product.id}&${product.name}`} className='text-body text-decoration-none font-weight-bold'>
+                        <Link to={`/detail/${product.id}&${product.name}&${product.category_id}`} className='text-body text-decoration-none font-weight-bold'>
                           {product.name}
                         </Link>
                       </CardTitle>

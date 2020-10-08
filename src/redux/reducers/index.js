@@ -3,9 +3,11 @@ import { combineReducers } from 'redux'
 import newProducts from './newProducts'
 import popularProducts from './popularProducts'
 import detailProduct from './detailProduct'
+import relevantProducts from './relevantProducts'
 
 export default combineReducers({
   newProducts,
   popularProducts,
-  detailProduct
+  detailProduct,
+  relevantProducts
 })
