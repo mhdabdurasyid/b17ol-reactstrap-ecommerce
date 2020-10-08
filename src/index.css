@@ -5,3 +5,8 @@
 .progress {
   height: 6px;
 }
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before,
+.custom-radio .custom-control-input:checked~.custom-control-label::before {
+    background-color: #44D62D;
+}
