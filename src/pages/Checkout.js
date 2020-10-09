@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Card, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Container, Row, Col, Card, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
 // import component
@@ -10,7 +10,8 @@ class Cart extends Component {
     super(props)
 
     this.state = {
-      selectAddressModal: false
+      selectAddressModal: false,
+      addModal: false
     }
   }
 
@@ -97,7 +98,7 @@ class Cart extends Component {
             <Card className='p-3 mx-5 mb-4'>
               <CardTitle className='m-0'>
                 <div className='text-center'>
-                  <Link to='#add' className='font-weight-bold text-secondary text-decoration-none' style={{ fontSize: '18px' }}>Add new address</Link>
+                  <Link to='#add' className='font-weight-bold text-secondary text-decoration-none' style={{ fontSize: '18px' }} onClick={() => this.setState({ addModal: !this.state.addModal })}>Add new address</Link>
                 </div>
               </CardTitle>
             </Card>
@@ -109,6 +110,78 @@ class Cart extends Component {
               <Link to='#update' className='font-weight-bold text-success text-decoration-none'>Change address</Link>
             </Card>
           </ModalBody>
+        </Modal>
+        <Modal className='modal-dialog-centered modal-dialog-scrollable modal-lg' isOpen={this.state.addModal} toggle={() => this.setState({ addModal: !this.state.addModal })}>
+          <ModalHeader className='border-bottom-0' toggle={() => this.setState({ addModal: !this.state.addModal })} />
+          <Form>
+            <ModalBody className='pt-0 px-5'>
+              <h4 className='text-center font-weight-bold mb-4'>Add new address</h4>
+              <FormGroup>
+                <Label for='name' className='text-secondary'>Save address as (ex: home address, office address)</Label>
+                <Input type='text' name='name' id='name' bsSize='lg' />
+              </FormGroup>
+              <Row form>
+                <Col md='6'>
+                  <FormGroup>
+                    <Label for='recipientName' className='text-secondary'>Recipient's name</Label>
+                    <Input type='text' name='recipientName' id='recipientName' bsSize='lg' />
+                  </FormGroup>
+                </Col>
+                <Col md='6'>
+                  <FormGroup>
+                    <Label for='recipientPhone' className='text-secondary'>Recipient's telephone number</Label>
+                    <Input type='text' name='recipientPhone' id='recipientPhone' bsSize='lg' />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row form>
+                <Col md='6'>
+                  <FormGroup>
+                    <Label for='address' className='text-secondary'>Address</Label>
+                    <Input type='text' name='address' id='address' bsSize='lg' />
+                  </FormGroup>
+                </Col>
+                <Col md='6'>
+                  <FormGroup>
+                    <Label for='postalCode' className='text-secondary'>Postal code</Label>
+                    <Input type='text' name='postalCode' id='postalCode' bsSize='lg' />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row form>
+                <Col md='6'>
+                  <FormGroup>
+                    <Label for='province' className='text-secondary'>Province</Label>
+                    <Input type='select' name='province' id='province' bsSize='lg'>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                    </Input>
+                  </FormGroup>
+                </Col>
+                <Col md='6'>
+                  <FormGroup>
+                    <Label for='city' className='text-secondary'>City or subsdistrict</Label>
+                    <Input type='select' name='city' id='city' bsSize='lg'>
+                      <option>Medan</option>
+                      <option>Jakarta</option>
+                      <option>Surabaya</option>
+                    </Input>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <FormGroup>
+                <Label for='primaryAddress' />
+                <div>
+                  <CustomInput type='checkbox' name='primaryAddress' id='primaryAddress' label='Make it the primary address' className='text-secondary' />
+                </div>
+              </FormGroup>
+            </ModalBody>
+            <ModalFooter className='border-top-0 px-5 mb-4'>
+              <Button className='rounded-pill' outline color='secondary' style={{ width: '160px' }} onClick={() => this.setState({ addModal: !this.state.addModal })}>Cancel</Button>{' '}
+              <Button className='rounded-pill' color='success' style={{ width: '160px' }}>Save</Button>
+            </ModalFooter>
+          </Form>
         </Modal>
       </>
     )
