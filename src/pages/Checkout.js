@@ -5,13 +5,17 @@ import { Link } from 'react-router-dom'
 // import component
 import Navbar from '../components/NavbarCustomer'
 
+// import icon
+import Logo from '../assets/img/icon/logo.svg'
+
 class Cart extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
       selectAddressModal: false,
-      addModal: false
+      addModal: false,
+      paymentModal: false
     }
   }
 
@@ -86,7 +90,7 @@ class Cart extends Component {
                     <p className='font-weight-bold text-success mb-4'>Rp. 538.000</p>
                   </div>
                 </div>
-                <Link to='#payment' className='btn btn-success rounded-pill'>Select Payment</Link>
+                <Link to='#payment' className='btn btn-success rounded-pill' onClick={() => this.setState({ paymentModal: !this.state.paymentModal })}>Select Payment</Link>
               </Card>
             </Col>
           </Row>
@@ -182,6 +186,49 @@ class Cart extends Component {
               <Button className='rounded-pill' color='success' style={{ width: '160px' }}>Save</Button>
             </ModalFooter>
           </Form>
+        </Modal>
+        <Modal className='modal-dialog-centered modal-dialog-scrollable' isOpen={this.state.paymentModal} toggle={() => this.setState({ paymentModal: !this.state.paymentModal })}>
+          <ModalHeader className='shadow-sm' toggle={() => this.setState({ paymentModal: !this.state.paymentModal })}>Payment</ModalHeader>
+          <div className='p-4 border-bottom shadow-sm'>
+            <p className='font-weight-bold'>Payment method</p>
+            <Row>
+              <Col xs='3' className='pr-0'>
+                <img src={Logo} width='100%' alt='Wakede Logo' />
+              </Col>
+              <Col xs='7'>
+                <Label for='wakkedePayment' className='font-weight-bold'>Wakede Payment</Label>
+              </Col>
+              <Col xs='2'>
+                <CustomInput type='checkbox' name='wakkedePayment' id='wakkedePayment' />
+              </Col>
+            </Row>
+          </div>
+          <div className='p-4'>
+            <p className='font-weight-bold'>Shopping Summary</p>
+            <Row>
+              <Col xs='6'>
+                <p className='text-secondary m-0'>Order</p>
+              </Col>
+              <Col xs='6'>
+                <p className='font-weight-bold text-right m-0'>Rp. 499.000</p>
+              </Col>
+              <Col xs='6'>
+                <p className='text-secondary'>Delivery</p>
+              </Col>
+              <Col xs='6'>
+                <p className='font-weight-bold text-right'>Rp. 39.000</p>
+              </Col>
+            </Row>
+          </div>
+          <div className='p-4 border-top'>
+            <div className='d-flex flex-row align-items-center justify-content-between'>
+              <div>
+                <p className='font-weight-bold m-0'>Shopping Summary</p>
+                <h5 className='font-weight-bold text-success m-0'>Rp. 538.000</h5>
+              </div>
+              <Button className='rounded-pill' color='success' style={{ width: '160px' }}>Buy</Button>
+            </div>
+          </div>
         </Modal>
       </>
     )
