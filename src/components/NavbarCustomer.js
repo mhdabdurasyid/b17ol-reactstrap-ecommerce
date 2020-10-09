@@ -35,7 +35,7 @@ class NavbarCostumer extends Component {
                 </NavLink>
               </NavItem>
               <NavItem className='ml-5 mr-4'>
-                <NavLink href='#my-bag'>
+                <NavLink href='/cart'>
                   <Button color='link'><img src={Cart} alt='notification' /></Button>
                 </NavLink>
               </NavItem>
