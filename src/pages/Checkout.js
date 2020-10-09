@@ -1,11 +1,19 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Card, CardTitle, CardText, Button } from 'reactstrap'
+import { Container, Row, Col, Card, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
 // import component
 import Navbar from '../components/NavbarCustomer'
 
 class Cart extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      selectAddressModal: false
+    }
+  }
+
   render () {
     return (
       <>
@@ -20,7 +28,7 @@ class Cart extends Component {
                   <h6 className='m-0 font-weight-bold'>Andreas Jane</h6>
                 </CardTitle>
                 <CardText>Perumahan Sapphire Mediterania, Wiradadi, Kec. Sokaraja, Kabupaten Banyumas, Jawa Tengah, 53181 [Tokopedia Note: blok c 16] Sokaraja, Kab. Banyumas, 53181</CardText>
-                <Button outline color='success' className='rounded-pill'>Choose another address</Button>
+                <Button outline color='success' className='rounded-pill' onClick={() => this.setState({ selectAddressModal: !this.state.selectAddressModal })}>Choose another address</Button>
               </Card>
               {Array(3).fill(
                 <Card className='p-4 shadow mb-2'>
@@ -82,6 +90,26 @@ class Cart extends Component {
             </Col>
           </Row>
         </Container>
+        <Modal className='modal-dialog-centered modal-dialog-scrollable modal-lg' isOpen={this.state.selectAddressModal} toggle={() => this.setState({ selectAddressModal: !this.state.selectAddressModal })}>
+          <ModalHeader className='border-bottom-0' toggle={() => this.setState({ selectAddressModal: !this.state.selectAddressModal })} />
+          <ModalBody className='pt-0 px-2 mb-5'>
+            <h4 className='text-center font-weight-bold mb-4'>Choose another address</h4>
+            <Card className='p-3 mx-5 mb-4'>
+              <CardTitle className='m-0'>
+                <div className='text-center'>
+                  <Link to='#add' className='font-weight-bold text-secondary text-decoration-none' style={{ fontSize: '18px' }}>Add new address</Link>
+                </div>
+              </CardTitle>
+            </Card>
+            <Card className='p-3 mx-5 mb-4' outline color='success'>
+              <CardTitle>
+                <h6 className='m-0 font-weight-bold'>Andreas Jane</h6>
+              </CardTitle>
+              <CardText>Perumahan Sapphire Mediterania, Wiradadi, Kec. Sokaraja, Kabupaten Banyumas, Jawa Tengah, 53181 [Tokopedia Note: blok c 16] Sokaraja, Kab. Banyumas, 53181</CardText>
+              <Link to='#update' className='font-weight-bold text-success text-decoration-none'>Change address</Link>
+            </Card>
+          </ModalBody>
+        </Modal>
       </>
     )
   }
