@@ -14,7 +14,7 @@ class Cart extends Component {
     return (
       <>
         <Navbar />
-        <Container className='mt-5'>
+        <Container className='my-5'>
           <h2 className='font-weight-bold mb-4'>My Bag</h2>
           <Row>
             <Col md='8'>
