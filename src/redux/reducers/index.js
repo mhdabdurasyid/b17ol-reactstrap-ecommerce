@@ -6,6 +6,7 @@ import detailProduct from './detailProduct'
 import relevantProducts from './relevantProducts'
 import getProductByCategory from './getProductByCategory'
 import customerAuth from './customerAuth'
+import customerProfile from './customerProfile'
 
 export default combineReducers({
   newProducts,
@@ -13,5 +14,6 @@ export default combineReducers({
   detailProduct,
   relevantProducts,
   getProductByCategory,
-  customerAuth
+  customerAuth,
+  customerProfile
 })
