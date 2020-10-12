@@ -13,9 +13,6 @@ import Notification from '../assets/img/icon/notification.svg'
 // import action
 import customerAuth from '../redux/actions/customerAuth'
 
-// import dummy img profile
-import Profile from '../assets/img/profile/profile.png'
-
 class NavbarCostumer extends Component {
   constructor (props) {
     super(props)
@@ -30,6 +27,7 @@ class NavbarCostumer extends Component {
 
   render () {
     const { isLogin } = this.props.customerAuth
+    const { customerProfileData } = this.props.customerProfile
 
     return (
       <Navbar color='light' light className='shadow' expand='md'>
@@ -75,7 +73,11 @@ class NavbarCostumer extends Component {
                   </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
-                      <img src={Profile} alt='profile' className='rounded-circle mt-1' style={{ width: '32px' }} />
+                      {customerProfileData.length !== 0 && customerProfileData.map(profile => {
+                        return (
+                          <img key='1' src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='profile' className='rounded-circle mt-1' style={{ width: '32px', height: '32px' }} />
+                        )
+                      })}
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem>
@@ -96,7 +98,10 @@ class NavbarCostumer extends Component {
   }
 }
 
-const mapStateToProps = state => ({ customerAuth: state.customerAuth })
+const mapStateToProps = state => ({
+  customerAuth: state.customerAuth,
+  customerProfile: state.customerProfile
+})
 
 const mapDispatchToProps = {
   logout: customerAuth.logout

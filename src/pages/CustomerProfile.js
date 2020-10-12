@@ -16,10 +16,6 @@ import Order from '../assets/img/icon/order.svg'
 import customerProfile from '../redux/actions/customerProfile'
 
 class CustomerProfile extends Component {
-  componentDidMount () {
-    this.props.getCustomerProfile(this.props.customerAuth.token)
-  }
-
   render () {
     const { customerProfileData, customerProfileIsLoading, customerProfileIsError, customerProfileAlertMsg } = this.props.customerProfile
 

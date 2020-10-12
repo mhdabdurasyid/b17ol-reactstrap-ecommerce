@@ -8,6 +8,7 @@ import logo from '../logo.svg'
 
 // import action
 import customerAuth from '../redux/actions/customerAuth'
+import customerProfile from '../redux/actions/customerProfile'
 
 class Login extends Component {
   constructor (props) {
@@ -33,6 +34,7 @@ class Login extends Component {
 
   componentDidUpdate () {
     if (this.props.customerAuth.isLogin) {
+      this.props.getCustomerProfile(this.props.customerAuth.token)
       this.props.history.push('/')
     }
   }
@@ -76,7 +78,8 @@ class Login extends Component {
 const mapStateToProps = state => ({ customerAuth: state.customerAuth })
 
 const mapDispatchToProps = {
-  customerLogin: customerAuth.login
+  customerLogin: customerAuth.login,
+  getCustomerProfile: customerProfile.getCustomerProfile
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
