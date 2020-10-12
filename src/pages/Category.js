@@ -71,7 +71,7 @@ class Category extends Component {
 
                           {product.rating === 5 && Array(5).fill(<li className='list-inline-item m-0'><img src={Star} alt='...' /></li>)}
                           <li className='list-inline-item m-0'>
-                            <small className='text-secondary'>({product.count_review})</small>
+                            <small className='text-secondary ml-1'>({product.count_review})</small>
                           </li>
                         </ul>
                       </CardBody>
