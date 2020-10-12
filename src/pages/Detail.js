@@ -51,25 +51,33 @@ class Detail extends Component {
               <Container>
                 <Row>
                   <Col md='4'>
-                    <div>
-                      <img src={require('../assets/img/products/item1.png')} alt='product' className='img-fluid rounded' />
-                    </div>
+                    <div
+                      style={{
+                        backgroundImage: `url('${process.env.REACT_APP_BACKEND_URL}${product.images.split(',')[0]}')`,
+                        width: '100%',
+                        height: '370px',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                      className='border rounded'
+                    />
                     <Row xs='5' className='mb-2'>
-                      <Col className='mt-3 px-2'>
-                        <img src={require('../assets/img/products/item1.png')} alt='product' className='img-fluid rounded' />
-                      </Col>
-                      <Col className='mt-3 px-2'>
-                        <img src={require('../assets/img/products/item2.png')} alt='product' className='img-fluid rounded' />
-                      </Col>
-                      <Col className='mt-3 px-2'>
-                        <img src={require('../assets/img/products/item3.png')} alt='product' className='img-fluid rounded' />
-                      </Col>
-                      <Col className='mt-3 px-2'>
-                        <img src={require('../assets/img/products/item4.png')} alt='product' className='img-fluid rounded' />
-                      </Col>
-                      <Col className='mt-3 px-2'>
-                        <img src={require('../assets/img/products/item5.png')} alt='product' className='img-fluid rounded' />
-                      </Col>
+                      {product.images !== null && product.images.split(',').map(img => {
+                        return (
+                          <Col className='mt-3 px-2' key=''>
+                            <div
+                              style={{
+                                backgroundImage: `url('${process.env.REACT_APP_BACKEND_URL}${img}')`,
+                                width: '100%',
+                                height: '65px',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center'
+                              }}
+                              className='border rounded'
+                            />
+                          </Col>
+                        )
+                      })}
                     </Row>
                   </Col>
                   <Col md='8'>
@@ -96,7 +104,7 @@ class Detail extends Component {
                       </li>
                     </ul>
                     <h6 className='text-secondary font-weight-bold mt-4 mb-0'>Price</h6>
-                    <p className='font-weight-bold' style={{ fontSize: '32px' }}>{product.price}</p>
+                    <p className='font-weight-bold' style={{ fontSize: '32px' }}>Rp {product.price.toString().replace(/(.)(?=(\d{3})+$)/g, '$1.')}</p>
                     <h6 className='font-weight-bold mt-4'>Color</h6>
                     <p>{product.color}</p>
                     <Row className='mt-4'>
@@ -281,7 +289,7 @@ class Detail extends Component {
                           {product.name}
                         </Link>
                       </CardTitle>
-                      <CardSubtitle className='text-success font-weight-bold'>Rp {product.price}</CardSubtitle>
+                      <CardSubtitle className='text-success font-weight-bold'>Rp {product.price.toString().replace(/(.)(?=(\d{3})+$)/g, '$1.')}</CardSubtitle>
                       <CardText className='mb-0'>
                         <small className='text-secondary'>{product.store_name}</small>
                       </CardText>

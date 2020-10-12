@@ -50,7 +50,7 @@ class Category extends Component {
                             {product.name}
                           </Link>
                         </CardTitle>
-                        <CardSubtitle className='text-success font-weight-bold'>Rp {product.price}</CardSubtitle>
+                        <CardSubtitle className='text-success font-weight-bold'>Rp {product.price.toString().replace(/(.)(?=(\d{3})+$)/g, '$1.')}</CardSubtitle>
                         <CardText className='mb-0'>
                           <small className='text-secondary'>{product.store_name}</small>
                         </CardText>
