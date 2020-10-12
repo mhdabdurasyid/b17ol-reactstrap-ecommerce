@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col, Card, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 // import component
 import Navbar from '../components/NavbarCustomer'
@@ -11,8 +12,8 @@ import User from '../assets/img/icon/user.svg'
 import Address from '../assets/img/icon/address.svg'
 import Order from '../assets/img/icon/order.svg'
 
-// import dummy img profile
-import Profile from '../assets/img/profile/profile.png'
+// import action
+import shippingAddress from '../redux/actions/shippingAddress'
 
 class ShippingAddress extends Component {
   constructor (props) {
@@ -23,24 +24,35 @@ class ShippingAddress extends Component {
     }
   }
 
+  componentDidMount () {
+    this.props.getShippingAddress(this.props.customerAuth.token)
+  }
+
   render () {
+    const { shippingAddressData } = this.props.shippingAddress
+    const { customerProfileData } = this.props.customerProfile
+
     return (
       <>
         <Navbar />
         <Row className='mx-0'>
           <Col md='3' className='mt-5 pl-5'>
             <div className='pl-5'>
-              <div className='d-flex flex-row align-items-center'>
-                <div className='mr-3'>
-                  <img src={Profile} alt='...' className='rounded-circle' style={{ width: '60px' }} />
-                </div>
-                <div>
-                  <h6 className='font-weight-bold'>Andreas Jane</h6>
-                  <div>
-                    <Link to='/customer' className='text-secondary text-decoration-none'><img src={Edit} alt='...' className='mr-1' />Edit Profile</Link>
+              {customerProfileData.length !== 0 && customerProfileData.map(profile => {
+                return (
+                  <div className='d-flex flex-row align-items-center' key={profile.id}>
+                    <div className='mr-3'>
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '60px' }} />
+                    </div>
+                    <div>
+                      <h6 className='font-weight-bold'>{profile.name}</h6>
+                      <div>
+                        <Link to='/customer' className='text-secondary text-decoration-none'><img src={Edit} alt='...' className='mr-1' />Edit Profile</Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                )
+              })}
               <div className='mt-5'>
                 <div className='mb-3'>
                   <Link to='/customer' className='text-secondary text-decoration-none'>
@@ -84,13 +96,17 @@ class ShippingAddress extends Component {
                     </div>
                   </CardTitle>
                 </Card>
-                <Card className='p-3 mx-5 mb-4' outline color='success'>
-                  <CardTitle>
-                    <h6 className='m-0 font-weight-bold'>Andreas Jane</h6>
-                  </CardTitle>
-                  <CardText>Perumahan Sapphire Mediterania, Wiradadi, Kec. Sokaraja, Kabupaten Banyumas, Jawa Tengah, 53181 [Tokopedia Note: blok c 16] Sokaraja, Kab. Banyumas, 53181</CardText>
-                  <Link to='#update' className='font-weight-bold text-success text-decoration-none'>Change address</Link>
-                </Card>
+                {shippingAddressData.length !== 0 && shippingAddressData.map(address => {
+                  return (
+                    <Card className='p-3 mx-5 mb-4' outline color='success' key={address.id}>
+                      <CardTitle>
+                        <h6 className='m-0 font-weight-bold'>{address.recipient_name} | {address.recipient_phone}</h6>
+                      </CardTitle>
+                      <CardText>{address.full_address}</CardText>
+                      <Link to='#update' className='font-weight-bold text-success text-decoration-none'>Change address</Link>
+                    </Card>
+                  )
+                })}
               </Card>
             </div>
           </Col>
@@ -172,4 +188,14 @@ class ShippingAddress extends Component {
   }
 }
 
-export default ShippingAddress
+const mapStateToProps = state => ({
+  shippingAddress: state.shippingAddress,
+  customerAuth: state.customerAuth,
+  customerProfile: state.customerProfile
+})
+
+const mapDispatchToProps = {
+  getShippingAddress: shippingAddress.getShippingAddress
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShippingAddress)
