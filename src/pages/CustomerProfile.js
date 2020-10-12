@@ -33,7 +33,7 @@ class CustomerProfile extends Component {
                 <div className='pl-5'>
                   <div className='d-flex flex-row align-items-center'>
                     <div className='mr-3'>
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '60px' }} />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '60px', height: '60px' }} />
                     </div>
                     <div>
                       <h6 className='font-weight-bold'>{profile.name}</h6>
@@ -133,11 +133,11 @@ class CustomerProfile extends Component {
                         <Col md='3' className='pl-0 pr-5'>
                           <div className='d-flex flex-column align-items-center'>
                             <div>
-                              <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '110px' }} />
+                              <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '110px', height: '110px' }} />
                             </div>
                             <FormGroup>
                               <Label for='profile' />
-                              <Input type='file' name='profile' id='profile' />
+                              <Input type='file' name='profile' id='profile' accept='.png, .jpg, .jpeg' />
                             </FormGroup>
                           </div>
                         </Col>
