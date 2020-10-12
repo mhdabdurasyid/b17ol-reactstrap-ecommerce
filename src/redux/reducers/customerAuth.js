@@ -30,6 +30,14 @@ export default (state = initialState, action) => {
         alertMsg: 'Successfully login'
       }
     }
+    case 'LOGOUT_CUSTOMER': {
+      return {
+        isLogin: false,
+        token: '',
+        isError: false,
+        alertMsg: ''
+      }
+    }
     default : {
       return state
     }
