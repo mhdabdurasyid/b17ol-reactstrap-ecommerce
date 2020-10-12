@@ -5,11 +5,13 @@ import popularProducts from './popularProducts'
 import detailProduct from './detailProduct'
 import relevantProducts from './relevantProducts'
 import getProductByCategory from './getProductByCategory'
+import customerAuth from './customerAuth'
 
 export default combineReducers({
   newProducts,
   popularProducts,
   detailProduct,
   relevantProducts,
-  getProductByCategory
+  getProductByCategory,
+  customerAuth
 })

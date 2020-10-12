@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
+// import components
+import CustomerPrivateRoute from './components/CustomerPrivateRoute'
+
 // import pages
 import Product from './pages/Products'
 import SellProduct from './pages/SellProduct'
@@ -27,7 +30,9 @@ class App extends Component {
             <Route path='/' render={() => <Home />} exact />
             <Route path='/register' component={Register} />
             <Route path='/login' component={Login} />
-            <Route path='/customer' component={Customer} />
+            <CustomerPrivateRoute path='/customer'>
+              <Customer />
+            </CustomerPrivateRoute>
             <Route path='/shipping_address' component={ShippingAddress} />
             <Route path='/cart' component={Cart} />
             <Route path='/checkout' component={Checkout} />
