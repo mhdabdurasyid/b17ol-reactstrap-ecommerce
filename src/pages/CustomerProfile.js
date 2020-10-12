@@ -103,15 +103,24 @@ class CustomerProfile extends Component {
                             <Label for='gender' md='3' className='text-right text-secondary'>Gender</Label>
                             <Col md='8'>
                               <div className='d-flex'>
-                                <CustomInput type='radio' id='man' name='gender' label='Man' className='text-secondary mr-4' />
-                                <CustomInput type='radio' id='woman' name='gender' label='Woman' className='text-secondary' />
+                                {profile.gender === 'Man' ? (
+                                  <div className='d-flex'>
+                                    <CustomInput type='radio' checked value='1' id='man' name='gender' label='Man' className='text-secondary mr-4' />
+                                    <CustomInput type='radio' value='2' id='woman' name='gender' label='Woman' className='text-secondary' />
+                                  </div>
+                                ) : (
+                                  <div className='d-flex'>
+                                    <CustomInput type='radio' value='1' id='man' name='gender' label='Man' className='text-secondary mr-4' />
+                                    <CustomInput type='radio' checked value='2' id='woman' name='gender' label='Woman' className='text-secondary' />
+                                  </div>
+                                )}
                               </div>
                             </Col>
                           </FormGroup>
                           <FormGroup row className='align-items-center'>
                             <Label for='birthdate' md='3' className='text-right text-secondary'>Date of birth</Label>
                             <Col md='8'>
-                              <Input type='date' name='birthdate' id='birthdate' bsSize='lg' />
+                              <Input type='date' name='birthdate' id='birthdate' bsSize='lg' value={profile.birthday.split('T')[0]} />
                             </Col>
                           </FormGroup>
                           <Row className='mt-4 mb-3'>
