@@ -11,6 +11,7 @@ import Edit from '../assets/img/icon/edit.svg'
 import User from '../assets/img/icon/user.svg'
 import Address from '../assets/img/icon/address.svg'
 import Order from '../assets/img/icon/order.svg'
+import Avatar from '../assets/img/profile/profile.png'
 
 // import action
 import shippingAddress from '../redux/actions/shippingAddress'
@@ -41,9 +42,16 @@ class ShippingAddress extends Component {
               {customerProfileData.length !== 0 && customerProfileData.map(profile => {
                 return (
                   <div className='d-flex flex-row align-items-center' key={profile.id}>
-                    <div className='mr-3'>
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '60px', height: '60px' }} />
-                    </div>
+                    <div
+                      style={{
+                        backgroundImage: `url(${profile.photo_profile !== '' ? `${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}` : Avatar})`,
+                        width: '60px',
+                        height: '60px',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                      className='border rounded-circle mr-3'
+                    />
                     <div>
                       <h6 className='font-weight-bold'>{profile.name}</h6>
                       <div>

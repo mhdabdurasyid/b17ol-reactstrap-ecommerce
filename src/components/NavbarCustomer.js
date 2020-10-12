@@ -9,6 +9,7 @@ import Cart from '../assets/img/icon/cart.svg'
 import Filter from '../assets/img/icon/filter.svg'
 import Message from '../assets/img/icon/message.svg'
 import Notification from '../assets/img/icon/notification.svg'
+import Avatar from '../assets/img/profile/profile.png'
 
 // import action
 import customerAuth from '../redux/actions/customerAuth'
@@ -75,7 +76,7 @@ class NavbarCostumer extends Component {
                     <DropdownToggle nav caret>
                       {customerProfileData.length !== 0 && customerProfileData.map(profile => {
                         return (
-                          <img key='1' src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='profile' className='rounded-circle mt-1' style={{ width: '32px', height: '32px' }} />
+                          <img key='1' src={profile.photo_profile !== '' ? `${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}` : Avatar} alt='profile' className='rounded-circle mt-1' style={{ width: '32px', height: '32px' }} />
                         )
                       })}
                     </DropdownToggle>

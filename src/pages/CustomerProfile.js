@@ -11,6 +11,7 @@ import Edit from '../assets/img/icon/edit.svg'
 import User from '../assets/img/icon/user.svg'
 import Address from '../assets/img/icon/address.svg'
 import Order from '../assets/img/icon/order.svg'
+import Avatar from '../assets/img/profile/profile.png'
 
 // import action
 import customerProfile from '../redux/actions/customerProfile'
@@ -28,9 +29,16 @@ class CustomerProfile extends Component {
               <Col md='3' className='mt-5 pl-5'>
                 <div className='pl-5'>
                   <div className='d-flex flex-row align-items-center'>
-                    <div className='mr-3'>
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '60px', height: '60px' }} />
-                    </div>
+                    <div
+                      style={{
+                        backgroundImage: `url(${profile.photo_profile !== '' ? `${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}` : Avatar})`,
+                        width: '60px',
+                        height: '60px',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                      className='border rounded-circle mr-3'
+                    />
                     <div>
                       <h6 className='font-weight-bold'>{profile.name}</h6>
                       <div>
@@ -128,9 +136,16 @@ class CustomerProfile extends Component {
                         </Col>
                         <Col md='3' className='pl-0 pr-5'>
                           <div className='d-flex flex-column align-items-center'>
-                            <div>
-                              <img src={`${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}`} alt='...' className='rounded-circle' style={{ width: '110px', height: '110px' }} />
-                            </div>
+                            <div
+                              style={{
+                                backgroundImage: `url(${profile.photo_profile !== '' ? `${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}` : Avatar})`,
+                                width: '110px',
+                                height: '110px',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center'
+                              }}
+                              className='border rounded-circle mr-3'
+                            />
                             <FormGroup>
                               <Label for='profile' />
                               <Input type='file' name='profile' id='profile' accept='.png, .jpg, .jpeg' />
