@@ -73,13 +73,23 @@ class NavbarCostumer extends Component {
                     </NavLink>
                   </NavItem>
                   <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      {customerProfileData.length !== 0 && customerProfileData.map(profile => {
-                        return (
-                          <img key='1' src={profile.photo_profile !== '' ? `${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}` : Avatar} alt='profile' className='rounded-circle mt-1' style={{ width: '32px', height: '32px' }} />
-                        )
-                      })}
-                    </DropdownToggle>
+                    {customerProfileData.length !== 0 && customerProfileData.map(profile => {
+                      return (
+                        <DropdownToggle
+                          key={1}
+                          nav
+                          className='border rounded-circle'
+                          style={{
+                            backgroundImage: `url(${profile.photo_profile !== '' ? `${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}` : Avatar})`,
+                            width: '32px',
+                            height: '32px',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            margin: '12px'
+                          }}
+                        />
+                      )
+                    })}
                     <DropdownMenu right>
                       <DropdownItem>
                         <Link to='/customer' className='text-decoration-none text-body'>My Profile</Link>
