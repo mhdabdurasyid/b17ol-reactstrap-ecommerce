@@ -4,5 +4,8 @@ export default {
   }),
   decreaseQuantity: () => ({
     type: 'DECREASE_QUANTITY'
+  }),
+  resetQuantity: () => ({
+    type: 'RESET_QUANTITY'
   })
 }

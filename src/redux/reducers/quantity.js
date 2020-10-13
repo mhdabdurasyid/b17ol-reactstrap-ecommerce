@@ -14,6 +14,11 @@ export default (state = initialState, action) => {
         quantity: state.quantity - 1
       }
     }
+    case 'RESET_QUANTITY': {
+      return {
+        quantity: 1
+      }
+    }
     default : {
       return state
     }
