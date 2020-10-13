@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Button, Progress, Spinner, Card, CardBody, CardText, CardSubtitle, CardTitle } from 'reactstrap'
+import { Container, Row, Col, Button, Progress, Spinner, Card, CardBody, CardText, CardSubtitle, CardTitle, Alert } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import qs from 'querystring'
+import http from '../helpers/http'
 
 // import component
 import Navbar from '../components/NavbarCustomer'
@@ -21,6 +23,10 @@ class Detail extends Component {
   constructor (props) {
     super(props)
     this.reRender = this.reRender.bind(this)
+    this.addCart = this.addCart.bind(this)
+    this.state = {
+      cartAlert: false
+    }
   }
 
   componentDidMount () {
@@ -28,12 +34,29 @@ class Detail extends Component {
     id = id.split('&')
     this.props.getDetailProduct(id[0])
     this.props.getRelevantProducts(id[id.length - 1])
+    this.props.resetQuantity()
   }
 
   reRender (product) {
     this.props.history.push(`/detail/${product.id}&${product.name}&${product.category_id}`)
     this.props.getDetailProduct(product.id)
     this.props.getRelevantProducts(product.category_id)
+    this.props.resetQuantity()
+  }
+
+  async addCart () {
+    if (this.props.customerAuth.isLogin) {
+      const data = {
+        itemID: this.props.match.params.id.split('&')[0],
+        quantity: this.props.quantity.quantity
+      }
+      const addToCart = await http(this.props.customerAuth.token).post('/cart', qs.stringify(data))
+      if (addToCart.status === 200) {
+        this.setState({ cartAlert: !this.state.cartAlert })
+      }
+    } else {
+      this.props.history.push('/login')
+    }
   }
 
   render () {
@@ -48,6 +71,9 @@ class Detail extends Component {
             <>
               <Container className='my-5'>
                 <span className='text-secondary'><Link to='/' className='text-secondary text-decoration-none'>Home</Link> {'>'} <Link to='#category' className='text-secondary text-decoration-none'>Category</Link> {'>'} <Link to={`/category/${product.category_id}&${product.category}`} className='text-secondary text-decoration-none'>{product.category}</Link></span>
+                <Alert color='success' isOpen={this.state.cartAlert} toggle={() => this.setState({ cartAlert: !this.state.cartAlert })}>
+                  Success add product to bag
+                </Alert>
               </Container>
               <Container>
                 <Row>
@@ -139,7 +165,7 @@ class Detail extends Component {
                         <Button outline block color='secondary' size='lg' className='rounded-pill'>Chat</Button>
                       </Col>
                       <Col xs='6' md='3' className='pr-0'>
-                        <Button outline block color='secondary' size='lg' className='rounded-pill'>Add Bag</Button>
+                        <Button onClick={() => { this.addCart() }} outline block color='secondary' size='lg' className='rounded-pill'>Add Bag</Button>
                       </Col>
                       <Col xs='12' md='6'>
                         <Button block color='success' size='lg' className='rounded-pill'>Buy Now</Button>
@@ -343,14 +369,16 @@ class Detail extends Component {
 const mapStateToProps = (state) => ({
   detailProduct: state.detailProduct,
   relevantProducts: state.relevantProducts,
-  quantity: state.quantity
+  quantity: state.quantity,
+  customerAuth: state.customerAuth
 })
 
 const mapDispatchToProps = {
   getDetailProduct: detailProductAction.getDetailProduct,
   getRelevantProducts: relevantProductsAction.getRelevantProducts,
   increaseQuantity: quantityAction.increaseQuantity,
-  decreaseQuantity: quantityAction.decreaseQuantity
+  decreaseQuantity: quantityAction.decreaseQuantity,
+  resetQuantity: quantityAction.resetQuantity
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail)
