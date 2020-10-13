@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Row, Col, Card, CardTitle, Form, FormGroup, Label, Input, CustomInput, Button, Spinner, Container } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import FormData from 'form-data'
+import dayjs from 'dayjs'
+import http from '../helpers/http'
 
 // import component
 import Navbar from '../components/NavbarCustomer'
@@ -17,6 +20,39 @@ import Avatar from '../assets/img/profile/profile.png'
 import customerProfile from '../redux/actions/customerProfile'
 
 class CustomerProfile extends Component {
+  constructor (props) {
+    super(props)
+    this.update = this.update.bind(this)
+    const { customerProfileData } = this.props.customerProfile
+    this.state = {
+      name: customerProfileData[0].name,
+      email: customerProfileData[0].email,
+      phone: customerProfileData[0].phone,
+      gender: customerProfileData[0].gender === 'Man' ? 1 : 2,
+      birthdate: dayjs(customerProfileData[0].birthday).format('YYYY-MM-DD'),
+      profile: ''
+    }
+  }
+
+  onChangeText (e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  async update (e) {
+    e.preventDefault()
+    const form = new FormData()
+    form.append('name', this.state.name)
+    form.append('email', this.state.email)
+    form.append('phone', this.state.phone)
+    form.append('birthday', this.state.birthdate)
+    form.append('gender_id', this.state.gender)
+    if (this.state.profile !== '') {
+      form.append('image', this.state.profile)
+    }
+    await http(this.props.customerAuth.token).patch('/costumer', form)
+    this.props.getCustomerProfile(this.props.customerAuth.token)
+  }
+
   render () {
     const { customerProfileData, customerProfileIsLoading, customerProfileIsError, customerProfileAlertMsg } = this.props.customerProfile
 
@@ -82,40 +118,40 @@ class CustomerProfile extends Component {
                       <p className='text-secondary m-0'>Manage your profile information</p>
                       <hr className='mb-3' />
                     </CardTitle>
-                    <Form>
+                    <Form onSubmit={(e) => { this.update(e) }}>
                       <Row>
                         <Col md='9'>
                           <FormGroup row className='align-items-center'>
                             <Label for='name' md='3' className='text-right text-secondary'>Name</Label>
                             <Col md='8'>
-                              <Input type='text' name='name' id='name' bsSize='lg' value={profile.name} />
+                              <Input type='text' name='name' id='name' bsSize='lg' value={this.state.name} onChange={(e) => { this.onChangeText(e) }} />
                             </Col>
                           </FormGroup>
                           <FormGroup row className='align-items-center'>
                             <Label for='email' md='3' className='text-right text-secondary'>Email</Label>
                             <Col md='8'>
-                              <Input type='email' name='email' id='email' bsSize='lg' value={profile.email} />
+                              <Input type='email' name='email' id='email' bsSize='lg' value={this.state.email} onChange={(e) => { this.onChangeText(e) }} />
                             </Col>
                           </FormGroup>
                           <FormGroup row className='align-items-center'>
                             <Label for='phone' md='3' className='text-right text-secondary'>Phone number</Label>
                             <Col md='8'>
-                              <Input type='text' name='phone' id='phone' bsSize='lg' value={profile.phone} />
+                              <Input type='text' name='phone' id='phone' bsSize='lg' value={this.state.phone} onChange={(e) => { this.onChangeText(e) }} />
                             </Col>
                           </FormGroup>
                           <FormGroup row className='align-items-center'>
                             <Label for='gender' md='3' className='text-right text-secondary'>Gender</Label>
                             <Col md='8'>
                               <div className='d-flex'>
-                                {profile.gender === 'Man' ? (
+                                {this.state.gender === 1 ? (
                                   <div className='d-flex'>
-                                    <CustomInput type='radio' checked value='1' id='man' name='gender' label='Man' className='text-secondary mr-4' />
-                                    <CustomInput type='radio' value='2' id='woman' name='gender' label='Woman' className='text-secondary' />
+                                    <CustomInput type='radio' checked value={1} id='man' name='gender' label='Man' className='text-secondary mr-4' onChange={(e) => { this.onChangeText(e) }} />
+                                    <CustomInput type='radio' value={2} id='woman' name='gender' label='Woman' className='text-secondary' onChange={(e) => { this.onChangeText(e) }} />
                                   </div>
                                 ) : (
                                   <div className='d-flex'>
-                                    <CustomInput type='radio' value='1' id='man' name='gender' label='Man' className='text-secondary mr-4' />
-                                    <CustomInput type='radio' checked value='2' id='woman' name='gender' label='Woman' className='text-secondary' />
+                                    <CustomInput type='radio' value={1} id='man' name='gender' label='Man' className='text-secondary mr-4' onChange={(e) => { this.onChangeText(e) }} />
+                                    <CustomInput type='radio' checked value={2} id='woman' name='gender' label='Woman' className='text-secondary' onChange={(e) => { this.onChangeText(e) }} />
                                   </div>
                                 )}
                               </div>
@@ -124,7 +160,7 @@ class CustomerProfile extends Component {
                           <FormGroup row className='align-items-center'>
                             <Label for='birthdate' md='3' className='text-right text-secondary'>Date of birth</Label>
                             <Col md='8'>
-                              <Input type='date' name='birthdate' id='birthdate' bsSize='lg' value={profile.birthday.split('T')[0]} />
+                              <Input type='date' name='birthdate' id='birthdate' bsSize='lg' value={this.state.birthdate} onChange={(e) => { this.onChangeText(e) }} />
                             </Col>
                           </FormGroup>
                           <Row className='mt-4 mb-3'>
@@ -135,7 +171,7 @@ class CustomerProfile extends Component {
                           </Row>
                         </Col>
                         <Col md='3' className='pl-0 pr-5'>
-                          <div className='d-flex flex-column align-items-center'>
+                          <div className='d-flex flex-column justify-content-center align-items-center'>
                             <div
                               style={{
                                 backgroundImage: `url(${profile.photo_profile !== '' ? `${process.env.REACT_APP_BACKEND_URL}${profile.photo_profile}` : Avatar})`,
@@ -144,11 +180,13 @@ class CustomerProfile extends Component {
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center'
                               }}
-                              className='border rounded-circle mr-3'
+                              className='border rounded-circle mb-2'
                             />
                             <FormGroup>
-                              <Label for='profile' />
-                              <Input type='file' name='profile' id='profile' accept='.png, .jpg, .jpeg' />
+                              <Label for='profile' className='btn btn-outline-secondary rounded-pill px-3'>
+                                <span>Select image</span>
+                                <Input type='file' name='profile' id='profile' accept='.png, .jpg, .jpeg' onChange={(e) => this.setState({ profile: e.target.files[0] })} style={{ display: 'none' }} />
+                              </Label>
                             </FormGroup>
                           </div>
                         </Col>
