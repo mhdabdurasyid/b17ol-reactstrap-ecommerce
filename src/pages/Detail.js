@@ -15,6 +15,7 @@ import Minus from '../assets/img/icon/minus.svg'
 // import action
 import detailProductAction from '../redux/actions/detailProduct'
 import relevantProductsAction from '../redux/actions/relevantProducts'
+import quantityAction from '../redux/actions/quantity'
 
 class Detail extends Component {
   constructor (props) {
@@ -121,11 +122,15 @@ class Detail extends Component {
                       <Col xs='6' md='3'>
                         <h6 className='font-weight-bold'>Quantity</h6>
                         <div className='d-flex flex-row align-items-center'>
-                          <Button color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Minus} alt='subtract quantity' /></Button>
+                          {this.props.quantity.quantity !== 1 ? (
+                            <Button onClick={() => { this.props.decreaseQuantity() }} color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Minus} alt='subtract quantity' /></Button>
+                          ) : (
+                            <Button disabled color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Minus} alt='subtract quantity' /></Button>
+                          )}
                           <div className='text-center' style={{ width: '40px' }}>
-                            <span>1</span>
+                            <span>{this.props.quantity.quantity}</span>
                           </div>
-                          <Button outline color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Plus} alt='add quantity' /></Button>
+                          <Button onClick={() => { this.props.increaseQuantity() }} outline color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Plus} alt='add quantity' /></Button>
                         </div>
                       </Col>
                     </Row>
@@ -337,12 +342,15 @@ class Detail extends Component {
 
 const mapStateToProps = (state) => ({
   detailProduct: state.detailProduct,
-  relevantProducts: state.relevantProducts
+  relevantProducts: state.relevantProducts,
+  quantity: state.quantity
 })
 
 const mapDispatchToProps = {
   getDetailProduct: detailProductAction.getDetailProduct,
-  getRelevantProducts: relevantProductsAction.getRelevantProducts
+  getRelevantProducts: relevantProductsAction.getRelevantProducts,
+  increaseQuantity: quantityAction.increaseQuantity,
+  decreaseQuantity: quantityAction.decreaseQuantity
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail)
