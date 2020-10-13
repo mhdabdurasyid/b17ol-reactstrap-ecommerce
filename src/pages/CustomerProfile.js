@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Card, CardTitle, Form, FormGroup, Label, Input, CustomInput, Button, Spinner, Container } from 'reactstrap'
+import { Row, Col, Card, CardTitle, Form, FormGroup, Label, Input, CustomInput, Button, Spinner, Container, Alert } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FormData from 'form-data'
@@ -30,7 +30,8 @@ class CustomerProfile extends Component {
       phone: customerProfileData[0].phone,
       gender: customerProfileData[0].gender === 'Man' ? 1 : 2,
       birthdate: dayjs(customerProfileData[0].birthday).format('YYYY-MM-DD'),
-      profile: ''
+      profile: '',
+      updateAlert: false
     }
   }
 
@@ -49,8 +50,11 @@ class CustomerProfile extends Component {
     if (this.state.profile !== '') {
       form.append('image', this.state.profile)
     }
-    await http(this.props.customerAuth.token).patch('/costumer', form)
-    this.props.getCustomerProfile(this.props.customerAuth.token)
+    const updateProfile = await http(this.props.customerAuth.token).patch('/costumer', form)
+    if (updateProfile.status === 200) {
+      this.props.getCustomerProfile(this.props.customerAuth.token)
+      this.setState({ updateAlert: !this.state.updateAlert })
+    }
   }
 
   render () {
@@ -112,6 +116,9 @@ class CustomerProfile extends Component {
               </Col>
               <Col md='9' className='vh-100 px-0' style={{ backgroundColor: '#F5F5F5' }}>
                 <div className='mr-5 pr-5'>
+                  <Alert color='success' isOpen={this.state.updateAlert} toggle={() => this.setState({ updateAlert: !this.state.updateAlert })}>
+                    Success update profile
+                  </Alert>
                   <Card body outline color='secondary' className='mx-5 mt-5'>
                     <CardTitle>
                       <h4 className='font-weight-bold'>My Profile</h4>
