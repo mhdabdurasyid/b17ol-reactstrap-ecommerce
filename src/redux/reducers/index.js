@@ -9,6 +9,7 @@ import customerAuth from './customerAuth'
 import customerProfile from './customerProfile'
 import shippingAddress from './shippingAddress'
 import quantity from './quantity'
+import cart from './cart'
 
 export default combineReducers({
   newProducts,
@@ -19,5 +20,6 @@ export default combineReducers({
   customerAuth,
   customerProfile,
   shippingAddress,
-  quantity
+  quantity,
+  cart
 })
