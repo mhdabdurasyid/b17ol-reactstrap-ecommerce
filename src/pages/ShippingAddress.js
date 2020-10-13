@@ -104,7 +104,7 @@ class ShippingAddress extends Component {
                     </div>
                   </CardTitle>
                 </Card>
-                {shippingAddressData.length !== 0 && shippingAddressData.map(address => {
+                {shippingAddressData && shippingAddressData.map(address => {
                   return (
                     <Card className='p-3 mx-5 mb-4' outline color='success' key={address.id}>
                       <CardTitle>
