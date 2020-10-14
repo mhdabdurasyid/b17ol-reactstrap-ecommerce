@@ -10,6 +10,8 @@ import customerProfile from './customerProfile'
 import shippingAddress from './shippingAddress'
 import quantity from './quantity'
 import cart from './cart'
+import checkout from './checkout'
+import primaryAddress from './primaryAddress'
 
 export default combineReducers({
   newProducts,
@@ -21,5 +23,7 @@ export default combineReducers({
   customerProfile,
   shippingAddress,
   quantity,
-  cart
+  cart,
+  checkout,
+  primaryAddress
 })
