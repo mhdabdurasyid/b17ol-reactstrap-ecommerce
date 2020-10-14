@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Container, Row, Col, Card, CardTitle, FormGroup, Label, CustomInput, Button, Spinner } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import qs from 'querystring'
+import http from '../helpers/http'
 
 // import component
 import Navbar from '../components/NavbarCustomer'
@@ -11,7 +13,9 @@ import Plus from '../assets/img/icon/plus.svg'
 import Minus from '../assets/img/icon/minus.svg'
 
 // import action
-import cartProfile from '../redux/actions/cart'
+import cartAction from '../redux/actions/cart'
+import checkoutAction from '../redux/actions/checkout'
+import primaryAddressAction from '../redux/actions/primaryAddress'
 
 class Cart extends Component {
   constructor (props) {
@@ -25,6 +29,7 @@ class Cart extends Component {
 
   componentDidMount () {
     this.props.getCustomerCart(this.props.customerAuth.token)
+    this.props.getPrimaryAddress(this.props.customerAuth.token)
   }
 
   onChangeCheckbox (e, product) {
@@ -33,7 +38,7 @@ class Cart extends Component {
       data.push(product)
       this.setState({
         product: data,
-        summary: this.state.summary + product.price,
+        summary: this.state.summary + product.price * product.quantity,
         selectedProduct: this.state.selectedProduct + 1
       })
     } else {
@@ -41,9 +46,40 @@ class Cart extends Component {
       data.pop(product)
       this.setState({
         product: data,
-        summary: this.state.summary - product.price,
+        summary: this.state.summary - product.price * product.quantity,
         selectedProduct: this.state.selectedProduct - 1
       })
+    }
+  }
+
+  updateQuantity (id, num) {
+    http(this.props.customerAuth.token).patch(`/cart/${id}`, qs.stringify({ quantity: num }))
+    this.props.getCustomerCart(this.props.customerAuth.token)
+    this.setState({
+      selectedProduct: 0,
+      summary: 0,
+      product: []
+    })
+  }
+
+  deleteProduct () {
+    if (this.state.product.length) {
+      this.state.product.forEach(product => {
+        http(this.props.customerAuth.token).delete(`/cart/${product.item_id}`)
+      })
+      this.props.getCustomerCart(this.props.customerAuth.token)
+      this.setState({
+        selectedProduct: 0,
+        summary: 0,
+        product: []
+      })
+    }
+  }
+
+  checkout () {
+    if (this.state.selectedProduct !== 0) {
+      this.props.setCheckout(this.state.product, this.state.summary)
+      this.props.history.push('/checkout')
     }
   }
 
@@ -66,7 +102,7 @@ class Cart extends Component {
                     </div>
                   </FormGroup>
                   <div>
-                    <Link to='#delete' className='text-decoration-none text-success'>Delete</Link>
+                    <Link to='#delete' onClick={() => { this.deleteProduct() }} className='text-decoration-none text-success'>Delete</Link>
                   </div>
                 </div>
               </Card>
@@ -103,11 +139,11 @@ class Cart extends Component {
                       <Col md='6' className='align-self-center'>
                         <div className='d-flex flex-row justify-content-end align-items-center'>
                           <div className='d-flex flex-row align-items-center mr-4'>
-                            <Button color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Minus} alt='subtract quantity' /></Button>
+                            <Button disabled={product.quantity === 1 && true} onClick={() => { this.updateQuantity(product.item_id, product.quantity - 1) }} color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Minus} alt='subtract quantity' /></Button>
                             <div className='text-center' style={{ width: '40px' }}>
                               <span>{product.quantity}</span>
                             </div>
-                            <Button outline color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Plus} alt='add quantity' /></Button>
+                            <Button onClick={() => { this.updateQuantity(product.item_id, product.quantity + 1) }} outline color='secondary' className='rounded-circle shadow-sm p-0' style={{ height: '36px', width: '36px' }}><img src={Plus} alt='add quantity' /></Button>
                           </div>
                           <div className='ml-5'>
                             <h6 className='font-weight-bold m-0'>Rp {product.price.toString().replace(/(.)(?=(\d{3})+$)/g, '$1.')}</h6>
@@ -130,7 +166,7 @@ class Cart extends Component {
                     <p className='font-weight-bold mb-4'>Rp {this.state.summary.toString().replace(/(.)(?=(\d{3})+$)/g, '$1.')}</p>
                   </div>
                 </div>
-                <Link to='/checkout' className='btn btn-success rounded-pill'>Buy</Link>
+                <Button onClick={() => { this.checkout() }} color='success' className='rounded-pill'>Buy</Button>
               </Card>
             </Col>
           </Row>
@@ -152,11 +188,14 @@ class Cart extends Component {
 
 const mapStateToProps = state => ({
   customerAuth: state.customerAuth,
-  cart: state.cart
+  cart: state.cart,
+  checkout: state.checkout
 })
 
 const mapDispatchToProps = {
-  getCustomerCart: cartProfile.getCustomerCart
+  getCustomerCart: cartAction.getCustomerCart,
+  setCheckout: checkoutAction.setCheckout,
+  getPrimaryAddress: primaryAddressAction.getPrimaryAddress
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
