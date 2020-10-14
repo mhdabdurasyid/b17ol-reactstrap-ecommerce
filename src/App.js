@@ -39,7 +39,9 @@ class App extends Component {
             <CustomerPrivateRoute path='/cart'>
               <Cart />
             </CustomerPrivateRoute>
-            <Route path='/checkout' component={Checkout} />
+            <CustomerPrivateRoute path='/checkout'>
+              <Checkout />
+            </CustomerPrivateRoute>
             <Route path='/detail/:id' render={(props) => <Detail {...props} />} />
             <Route path='/category/:id' render={(props) => <Category {...props} />} />
             <Route path='/my-store' component={Product} exact />
