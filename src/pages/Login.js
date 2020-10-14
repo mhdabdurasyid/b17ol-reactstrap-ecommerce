@@ -35,7 +35,7 @@ class Login extends Component {
   componentDidUpdate () {
     if (this.props.customerAuth.isLogin) {
       this.props.getCustomerProfile(this.props.customerAuth.token)
-      this.props.history.goBack()
+      this.props.history.push('/')
     }
   }
 
