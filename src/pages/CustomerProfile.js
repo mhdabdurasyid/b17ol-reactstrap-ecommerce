@@ -31,7 +31,9 @@ class CustomerProfile extends Component {
       gender: customerProfileData[0].gender === 'Man' ? 1 : 2,
       birthdate: dayjs(customerProfileData[0].birthday).format('YYYY-MM-DD'),
       profile: '',
-      updateAlert: false
+      updateAlert: false,
+      messageAlert: '',
+      colorAlert: ''
     }
   }
 
@@ -50,10 +52,20 @@ class CustomerProfile extends Component {
     if (this.state.profile !== '') {
       form.append('image', this.state.profile)
     }
-    const updateProfile = await http(localStorage.getItem('token')).patch('/costumer', form)
-    if (updateProfile.status === 200) {
+    try {
+      await http(localStorage.getItem('token')).patch('/costumer', form)
       this.props.getCustomerProfile(localStorage.getItem('token'))
-      this.setState({ updateAlert: !this.state.updateAlert })
+      this.setState({
+        updateAlert: !this.state.updateAlert,
+        messageAlert: 'Success update profile!',
+        colorAlert: 'success'
+      })
+    } catch (error) {
+      this.setState({
+        updateAlert: !this.state.updateAlert,
+        messageAlert: 'Update failed! File is too large (max 500kb) or file is not a picture (png, jpg, jpeg)',
+        colorAlert: 'danger'
+      })
     }
   }
 
@@ -116,8 +128,8 @@ class CustomerProfile extends Component {
               </Col>
               <Col md='9' className='vh-100 px-0' style={{ backgroundColor: '#F5F5F5' }}>
                 <div className='mr-5 pr-5'>
-                  <Alert color='success' isOpen={this.state.updateAlert} toggle={() => this.setState({ updateAlert: !this.state.updateAlert })}>
-                    Success update profile
+                  <Alert color={this.state.colorAlert} isOpen={this.state.updateAlert} toggle={() => this.setState({ updateAlert: !this.state.updateAlert })}>
+                    {this.state.messageAlert}
                   </Alert>
                   <Card body outline color='secondary' className='mx-5 mt-5'>
                     <CardTitle>
@@ -131,19 +143,19 @@ class CustomerProfile extends Component {
                           <FormGroup row className='align-items-center'>
                             <Label for='name' md='3' className='text-right text-secondary'>Name</Label>
                             <Col md='8'>
-                              <Input type='text' name='name' id='name' bsSize='lg' value={this.state.name} onChange={(e) => { this.onChangeText(e) }} />
+                              <Input required type='text' name='name' id='name' bsSize='lg' value={this.state.name} onChange={(e) => { this.onChangeText(e) }} />
                             </Col>
                           </FormGroup>
                           <FormGroup row className='align-items-center'>
                             <Label for='email' md='3' className='text-right text-secondary'>Email</Label>
                             <Col md='8'>
-                              <Input type='email' name='email' id='email' bsSize='lg' value={this.state.email} onChange={(e) => { this.onChangeText(e) }} />
+                              <Input required type='email' name='email' id='email' bsSize='lg' value={this.state.email} onChange={(e) => { this.onChangeText(e) }} />
                             </Col>
                           </FormGroup>
                           <FormGroup row className='align-items-center'>
                             <Label for='phone' md='3' className='text-right text-secondary'>Phone number</Label>
                             <Col md='8'>
-                              <Input type='text' name='phone' id='phone' bsSize='lg' value={this.state.phone} onChange={(e) => { this.onChangeText(e) }} />
+                              <Input required type='text' name='phone' id='phone' bsSize='lg' value={this.state.phone} onChange={(e) => { this.onChangeText(e) }} />
                             </Col>
                           </FormGroup>
                           <FormGroup row className='align-items-center'>
