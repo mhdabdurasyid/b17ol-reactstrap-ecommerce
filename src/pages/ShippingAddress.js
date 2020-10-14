@@ -26,7 +26,7 @@ class ShippingAddress extends Component {
   }
 
   componentDidMount () {
-    this.props.getShippingAddress(this.props.customerAuth.token)
+    this.props.getShippingAddress(localStorage.getItem('token'))
   }
 
   render () {
@@ -198,7 +198,6 @@ class ShippingAddress extends Component {
 
 const mapStateToProps = state => ({
   shippingAddress: state.shippingAddress,
-  customerAuth: state.customerAuth,
   customerProfile: state.customerProfile
 })
 

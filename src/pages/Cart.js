@@ -28,8 +28,8 @@ class Cart extends Component {
   }
 
   componentDidMount () {
-    this.props.getCustomerCart(this.props.customerAuth.token)
-    this.props.getPrimaryAddress(this.props.customerAuth.token)
+    this.props.getCustomerCart(localStorage.getItem('token'))
+    this.props.getPrimaryAddress(localStorage.getItem('token'))
   }
 
   onChangeCheckbox (e, product) {
@@ -52,9 +52,9 @@ class Cart extends Component {
     }
   }
 
-  updateQuantity (id, num) {
-    http(this.props.customerAuth.token).patch(`/cart/${id}`, qs.stringify({ quantity: num }))
-    this.props.getCustomerCart(this.props.customerAuth.token)
+  async updateQuantity (id, num) {
+    await http(localStorage.getItem('token')).patch(`/cart/${id}`, qs.stringify({ quantity: num }))
+    this.props.getCustomerCart(localStorage.getItem('token'))
     this.setState({
       selectedProduct: 0,
       summary: 0,
@@ -65,9 +65,9 @@ class Cart extends Component {
   deleteProduct () {
     if (this.state.product.length) {
       this.state.product.forEach(product => {
-        http(this.props.customerAuth.token).delete(`/cart/${product.item_id}`)
+        http(localStorage.getItem('token')).delete(`/cart/${product.item_id}`)
       })
-      this.props.getCustomerCart(this.props.customerAuth.token)
+      this.props.getCustomerCart(localStorage.getItem('token'))
       this.setState({
         selectedProduct: 0,
         summary: 0,
@@ -187,7 +187,6 @@ class Cart extends Component {
 }
 
 const mapStateToProps = state => ({
-  customerAuth: state.customerAuth,
   cart: state.cart,
   checkout: state.checkout
 })

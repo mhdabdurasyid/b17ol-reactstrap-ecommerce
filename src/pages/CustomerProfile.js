@@ -50,9 +50,9 @@ class CustomerProfile extends Component {
     if (this.state.profile !== '') {
       form.append('image', this.state.profile)
     }
-    const updateProfile = await http(this.props.customerAuth.token).patch('/costumer', form)
+    const updateProfile = await http(localStorage.getItem('token')).patch('/costumer', form)
     if (updateProfile.status === 200) {
-      this.props.getCustomerProfile(this.props.customerAuth.token)
+      this.props.getCustomerProfile(localStorage.getItem('token'))
       this.setState({ updateAlert: !this.state.updateAlert })
     }
   }
@@ -221,8 +221,7 @@ class CustomerProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  customerProfile: state.customerProfile,
-  customerAuth: state.customerAuth
+  customerProfile: state.customerProfile
 })
 
 const mapDispatchToProps = {

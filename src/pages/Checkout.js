@@ -57,7 +57,7 @@ class Checkout extends Component {
 
   chooseAddress () {
     this.setState({ selectAddressModal: !this.state.selectAddressModal })
-    this.props.getShippingAddress(this.props.customerAuth.token)
+    this.props.getShippingAddress(localStorage.getItem('token'))
   }
 
   render () {
@@ -295,7 +295,6 @@ class Checkout extends Component {
 
 const mapStateToProps = state => ({
   checkout: state.checkout,
-  customerAuth: state.customerAuth,
   primaryAddress: state.primaryAddress,
   shippingAddress: state.shippingAddress
 })

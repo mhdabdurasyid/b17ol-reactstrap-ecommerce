@@ -8,5 +8,9 @@ export default {
   }),
   logout: () => ({
     type: 'LOGOUT_CUSTOMER'
+  }),
+  setToken: (token) => ({
+    type: 'SET_TOKEN',
+    payload: { token }
   })
 }

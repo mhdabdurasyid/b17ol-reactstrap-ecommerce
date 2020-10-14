@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
       }
     }
     case 'AUTH_CUSTOMER_FULFILLED': {
+      localStorage.setItem('token', action.payload.data.token)
       return {
         ...state,
         token: action.payload.data.token,
@@ -30,7 +31,17 @@ export default (state = initialState, action) => {
         alertMsg: 'Successfully login'
       }
     }
+    case 'SET_TOKEN': {
+      return {
+        ...state,
+        token: action.payload.token,
+        isLoading: false,
+        isLogin: true,
+        alertMsg: 'Successfully login'
+      }
+    }
     case 'LOGOUT_CUSTOMER': {
+      localStorage.removeItem('token')
       return {
         isLogin: false,
         token: '',

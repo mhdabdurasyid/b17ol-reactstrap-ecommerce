@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
 
 class PrivateRoute extends Component {
   render () {
@@ -13,7 +12,7 @@ class PrivateRoute extends Component {
             }
             return child
           })
-          if (this.props.customerAuth.isLogin) {
+          if (localStorage.getItem('token')) {
             return childWithProps
           } else {
             return <Redirect to={{ pathname: '/login' }} />
@@ -25,6 +24,4 @@ class PrivateRoute extends Component {
   }
 }
 
-const mapStateToProps = state => ({ customerAuth: state.customerAuth })
-
-export default connect(mapStateToProps)(PrivateRoute)
+export default PrivateRoute

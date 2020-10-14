@@ -50,7 +50,7 @@ class Detail extends Component {
         itemID: this.props.match.params.id.split('&')[0],
         quantity: this.props.quantity.quantity
       }
-      const addToCart = await http(this.props.customerAuth.token).post('/cart', qs.stringify(data))
+      const addToCart = await http(localStorage.getItem('token')).post('/cart', qs.stringify(data))
       if (addToCart.status === 200) {
         this.setState({ cartAlert: !this.state.cartAlert })
       }
