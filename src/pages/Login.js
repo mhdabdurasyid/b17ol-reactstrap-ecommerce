@@ -57,11 +57,11 @@ class Login extends Component {
             <Form onSubmit={(e) => { this.login(e) }}>
               <FormGroup className='mb-0'>
                 <Label for='customerEmail' />
-                <Input bsSize='lg' type='email' name='customerEmail' id='customerEmail' placeholder='Email' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
+                <Input required bsSize='lg' type='email' name='customerEmail' id='customerEmail' placeholder='Email' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
               </FormGroup>
               <FormGroup className='mb-4'>
                 <Label for='customerPassword' />
-                <Input bsSize='lg' type='password' name='customerPassword' id='customerPassword' placeholder='Password' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
+                <Input required bsSize='lg' type='password' name='customerPassword' id='customerPassword' placeholder='Password' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
               </FormGroup>
               <div className='text-right'><Link to='/forgot' className='text-success text-decoration-none'>Forgot password?</Link></div>
               <Button color='success' className='rounded-pill mt-4 mb-4' size='lg' block>Login</Button>
