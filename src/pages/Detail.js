@@ -25,7 +25,9 @@ class Detail extends Component {
     this.reRender = this.reRender.bind(this)
     this.addCart = this.addCart.bind(this)
     this.state = {
-      cartAlert: false
+      cartAlert: false,
+      messageAlert: '',
+      colorAlert: ''
     }
   }
 
@@ -50,9 +52,19 @@ class Detail extends Component {
         itemID: this.props.match.params.id.split('&')[0],
         quantity: this.props.quantity.quantity
       }
-      const addToCart = await http(localStorage.getItem('token')).post('/cart', qs.stringify(data))
-      if (addToCart.status === 200) {
-        this.setState({ cartAlert: !this.state.cartAlert })
+      try {
+        await http(localStorage.getItem('token')).post('/cart', qs.stringify(data))
+        this.setState({
+          cartAlert: !this.state.cartAlert,
+          messageAlert: 'Success add product to bag!',
+          colorAlert: 'success'
+        })
+      } catch (error) {
+        this.setState({
+          cartAlert: !this.state.cartAlert,
+          messageAlert: 'Product already in bag. Checkout first!',
+          colorAlert: 'danger'
+        })
       }
     } else {
       this.props.history.push('/login')
@@ -71,8 +83,8 @@ class Detail extends Component {
             <>
               <Container className='my-5'>
                 <span className='text-secondary'><Link to='/' className='text-secondary text-decoration-none'>Home</Link> {'>'} <Link to='#category' className='text-secondary text-decoration-none'>Category</Link> {'>'} <Link to={`/category/${product.category_id}&${product.category}`} className='text-secondary text-decoration-none'>{product.category}</Link></span>
-                <Alert color='success' isOpen={this.state.cartAlert} toggle={() => this.setState({ cartAlert: !this.state.cartAlert })}>
-                  Success add product to bag
+                <Alert color={this.state.colorAlert} isOpen={this.state.cartAlert} toggle={() => this.setState({ cartAlert: !this.state.cartAlert })}>
+                  {this.state.messageAlert}
                 </Alert>
               </Container>
               <Container>
@@ -89,9 +101,9 @@ class Detail extends Component {
                       className='border rounded'
                     />
                     <Row xs='5' className='mb-2'>
-                      {product.images !== null && product.images.split(',').map(img => {
+                      {product.images !== null && product.images.split(',').map((img, i) => {
                         return (
-                          <Col className='mt-3 px-2' key=''>
+                          <Col className='mt-3 px-2' key={i}>
                             <div
                               style={{
                                 backgroundImage: `url('${process.env.REACT_APP_BACKEND_URL}${img}')`,
