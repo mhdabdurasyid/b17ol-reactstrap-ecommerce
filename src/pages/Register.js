@@ -64,15 +64,15 @@ class Register extends Component {
               <Form onSubmit={(e) => { this.register(e) }}>
                 <FormGroup className='mb-0'>
                   <Label for='customerName' />
-                  <Input bsSize='lg' type='text' name='customerName' id='customerName' placeholder='Name' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
+                  <Input required bsSize='lg' type='text' name='customerName' id='customerName' placeholder='Name' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
                 </FormGroup>
                 <FormGroup className='mb-0'>
                   <Label for='customerEmail' />
-                  <Input bsSize='lg' type='email' name='customerEmail' id='customerEmail' placeholder='Email' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
+                  <Input required bsSize='lg' type='email' name='customerEmail' id='customerEmail' placeholder='Email' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
                 </FormGroup>
                 <FormGroup className='mb-5'>
                   <Label for='customerPassword' />
-                  <Input bsSize='lg' type='password' name='customerPassword' id='customerPassword' placeholder='Password' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
+                  <Input required bsSize='lg' type='password' name='customerPassword' id='customerPassword' placeholder='Password' className='pl-4' onChange={(e) => { this.onChangeText(e) }} />
                 </FormGroup>
                 <Button color='success' className='rounded-pill mb-4' size='lg' block>Sign Up</Button>
               </Form>
