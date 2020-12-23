@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
-import { Container, Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col, Spinner } from 'reactstrap'
+import { Container, Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col, Spinner, FormGroup, Label, Input } from 'reactstrap'
 
 // import component
 import Navbar from '../components/NavbarCustomer'
@@ -17,16 +17,37 @@ export default function SearchResult () {
   const dispatch = useDispatch()
   const location = useLocation()
   const { searchProductsData, searchProductsIsLoading, searchProductsIsError } = useSelector((state) => state.search)
+  const [sort, setSort] = useState('1')
 
   useEffect(() => {
-    dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q')))
-  }, [location])
+    if (sort === '1') {
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q')))
+    } else if (sort === '2') {
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'created_at', 'desc'))
+    } else if (sort === '3') {
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'price', 'asc'))
+    } else if (sort === '4') {
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'price', 'desc'))
+    }
+  }, [dispatch, location, sort])
 
   return (
     <>
       <Navbar />
       <Container className='mt-4'>
           <h2 className='font-weight-bold mb-4'>Search result</h2>
+          <FormGroup row>
+            <Col sm={9} />
+            <Label for="sort" sm={1}>Sort by</Label>
+            <Col sm={2}>
+              <Input type="select" name="select" id="sort" onChange={(e) => setSort(e.target.value)}>
+                <option value={1}>Popular</option>
+                <option value={2}>Newest</option>
+                <option value={3}>Price: lowest to high</option>
+                <option value={4}>Price: high to lowest</option>
+              </Input>
+            </Col>
+          </FormGroup>
           <Row xs='2' md='5'>
             {!searchProductsIsLoading && !searchProductsIsError && searchProductsData.length !== 0 && searchProductsData.map(product => {
               return (
