@@ -12,6 +12,7 @@ import quantity from './quantity'
 import cart from './cart'
 import checkout from './checkout'
 import primaryAddress from './primaryAddress'
+import search from './search'
 
 export default combineReducers({
   newProducts,
@@ -25,5 +26,6 @@ export default combineReducers({
   quantity,
   cart,
   checkout,
-  primaryAddress
+  primaryAddress,
+  search
 })

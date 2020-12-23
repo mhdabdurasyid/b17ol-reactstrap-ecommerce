@@ -28,7 +28,7 @@ export default function NavbarCostumer () {
 
   function search (e) {
     e.preventDefault()
-    history.push(`/search?q=${keyword}`)
+    history.push(`/search/?q=${keyword}`)
   }
 
   return (
