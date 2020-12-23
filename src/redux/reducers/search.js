@@ -2,7 +2,8 @@ const initialState = {
   searchProductsData: [],
   searchProductsIsLoading: false,
   searchProductsIsError: false,
-  searchProductsAlertMsg: ''
+  searchProductsAlertMsg: '',
+  searchProductsPageInfo: {}
 }
 
 export default (state = initialState, action) => {
@@ -25,7 +26,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         searchProductsIsLoading: false,
-        searchProductsData: action.payload.data.data
+        searchProductsData: action.payload.data.data,
+        searchProductsPageInfo: action.payload.data.pageInfo
       }
     }
     default : {

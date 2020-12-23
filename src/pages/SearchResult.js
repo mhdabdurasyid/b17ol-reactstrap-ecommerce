@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
-import { Container, Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col, Spinner, FormGroup, Label, Input } from 'reactstrap'
+import { Container, Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col, Spinner, FormGroup, Label, Input, Button } from 'reactstrap'
 
 // import component
 import Navbar from '../components/NavbarCustomer'
@@ -16,25 +16,26 @@ import searchAction from '../redux/actions/search'
 export default function SearchResult () {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { searchProductsData, searchProductsIsLoading, searchProductsIsError } = useSelector((state) => state.search)
+  const { searchProductsData, searchProductsIsLoading, searchProductsIsError, searchProductsPageInfo } = useSelector((state) => state.search)
   const [sort, setSort] = useState('1')
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     if (sort === '1') {
-      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q')))
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'rating', 'desc', page))
     } else if (sort === '2') {
-      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'created_at', 'desc'))
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'created_at', 'desc', page))
     } else if (sort === '3') {
-      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'price', 'asc'))
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'price', 'asc', page))
     } else if (sort === '4') {
-      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'price', 'desc'))
+      dispatch(searchAction.searchProducts(new URLSearchParams(location.search).get('q'), 'price', 'desc', page))
     }
-  }, [dispatch, location, sort])
+  }, [dispatch, location, sort, page])
 
   return (
     <>
       <Navbar />
-      <Container className='mt-4'>
+      <Container className='mt-4 mb-5'>
           <h2 className='font-weight-bold mb-4'>Search result</h2>
           <FormGroup row>
             <Col sm={9} />
@@ -102,6 +103,15 @@ export default function SearchResult () {
                 <Spinner type='grow' color='secondary' />
               </Col>
             )}
+          </Row>
+          <Row>
+            <Col sm={1}>
+              <Button color="success" disabled={!searchProductsPageInfo.prevLink && true} onClick={() => setPage(page - 1)}>Prev</Button>
+            </Col>
+            <Col sm={10} />
+            <Col sm={1}>
+              <Button color="success" disabled={!searchProductsPageInfo.nextLink && true} onClick={() => setPage(page + 1)}>Next</Button>
+            </Col>
           </Row>
         </Container>
     </>
